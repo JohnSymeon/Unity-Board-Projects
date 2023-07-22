@@ -2,12 +2,20 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
+
+
+
 public class Board_Grid
 {
     private int width;
     private int height;
     public Cell[,] board;
     
+    public Vector3 last_played_position;
+
+
+    public static float x_offset = 0f;
+    public static float y_offset = 0f;
 
     public Board_Grid(int width, int height)
     {
@@ -34,8 +42,15 @@ public class Board_Grid
             if(board[i,col].status==Cell_status.Neutral)
             {
                 board[i,col].status = who;
+
+                //last_played_position = new Vector3(i-x_offset, col - y_offset,0f);
+
+                last_played_position = board[i,col].cell_obj.transform.position;
+
                 if(i==9)
                     return true;
+
+                return false;
             }
                 
         }
