@@ -3,14 +3,21 @@ using System.Collections.Generic;
 using UnityEngine;
 using System;
 
+
 public class GameController : MonoBehaviour
 {
     public GameObject cell_object;
     public Board_Grid game_board;
 
+    public GameObject player_mark;
+    public GameObject computer_mark;
+
     Cell_status who_plays =Cell_status.Player;
 
     public Buttons[] buttons;
+
+
+
 
     [Serializable]
     public struct Buttons
@@ -48,16 +55,25 @@ public class GameController : MonoBehaviour
         else
         {
             Debug.Log("comp plays");
+            Computer_Played();
             who_plays = Cell_status.Player;
         }
 
+    }
+
+    void Computer_Played()
+    {
+        game_board.Who_Plays_And_Return_If_Full(Cell_status.Computer, UnityEngine.Random.Range(0,9));
+        Instantiate(computer_mark, game_board.last_played_position ,transform.rotation);
+        if(game_board.Check_for_Victory(Cell_status.Computer))
+            Debug.Log("computer wins");
     }
 
     public void Player_Played(int col)
     {
         buttons[col].reachedMax = game_board.Who_Plays_And_Return_If_Full(Cell_status.Player, col);
 
-        game_board.Check_for_Victory(Cell_status.Player);
+        Instantiate(player_mark, game_board.last_played_position ,transform.rotation);
 
         Debug.Log("Player played");
 
@@ -67,7 +83,8 @@ public class GameController : MonoBehaviour
             buttons[i].button.SetActive(false);
         }
             
-
+        if(game_board.Check_for_Victory(Cell_status.Player))
+            Debug.Log("player wins");
         who_plays=Cell_status.Computer;
     }
 
@@ -79,7 +96,7 @@ public class GameController : MonoBehaviour
         {
             for(int j=0;j<N;j++)
             {
-                GameObject obj = Instantiate(cell_object, new Vector3( (float)game_board.board[i,j].x_pos-5f, (float)game_board.board[i,j].y_pos-4.5f,0 ), transform.rotation);
+                GameObject obj = Instantiate(cell_object, new Vector3((float)game_board.board[i,j].y_pos-Board_Grid.y_offset ,(float)game_board.board[i,j].x_pos-Board_Grid.x_offset ,0 ), transform.rotation);
                 game_board.Set_Object_to_Cell( i , j, obj );
 
             }
