@@ -10,6 +10,7 @@ public class Board_Grid
     private int width;
     private int height;
     public Cell[,] board;
+
     
     public Vector3 last_played_position;
 
@@ -55,7 +56,83 @@ public class Board_Grid
                 
         }
         return false;
-    } 
+    }
+
+    public void AI_Plays(Cell_status who, int MONTE_NUMBER)
+    {
+
+        int[] check_for_wins = new int[width];
+        for(int i=0;i<width;i++)
+            check_for_wins[i]=0;
+
+        for(int k=0;k<MONTE_NUMBER;k++)
+        {
+            Cell[,] board_monte = new Cell[width, height];
+
+            for(int i=0;i<width;i++)
+            {
+                for(int j=0;j<height;j++)
+                {
+                    board_monte[i,j] = new Cell();
+                    board_monte[i,j].status = board[i,j].status;
+                }
+            }
+            for(int i=0;i<width;i++)
+            {
+                for(int j=0;j<height;j++)
+                {
+                    if(board_monte[i,j].status==Cell_status.Neutral)
+                    {
+                        if(Random.Range(0f,1f)>=0.5f)
+                            board_monte[i,j].status = Cell_status.Player;
+                        else
+                        {
+                            board_monte[i,j].status = Cell_status.Computer;
+                        }    
+                    }            
+                }
+            }
+
+            int[] comp_played = new int[width];
+            for(int i=0;i<width;i++)
+                comp_played[i] = -1;
+            
+            for(int i=0;i<width;i++)
+            {
+                for(int j=0;j<height;j++)
+                {
+                    if(board[i,j].status==Cell_status.Neutral && board_monte[i,j].status==Cell_status.Computer && comp_played[j]==-1)
+                    {
+                        comp_played[j] = i;
+                    }
+                }
+            }
+
+
+    
+            if(Check_for_Victory(who, board_monte))
+            {
+                for(int i=0;i<width;i++)
+                {
+                    if(comp_played[i]>-1)
+                        check_for_wins[i]+=1;
+                }
+            }
+        }
+       
+        int max =0;
+        int pos=0;
+        for(int i=0;i<width;i++)
+        {
+            if(check_for_wins[i]>max)
+            {
+                pos = i;
+                max = check_for_wins[i];
+            }
+        }
+
+        Who_Plays_And_Return_If_Full(who,pos);
+    }
 
 
 
@@ -70,14 +147,29 @@ public class Board_Grid
         {
             for(int j=0; j<board.GetLength(1);j++)
             {
-                if(board[i,j].status==who && Check_Four(i,j,who))
+                if(board[i,j].status==who && Check_Four(i,j,who,board))
                     return true;
             }
         }
         return false;
     }
 
-    private bool Check_Four(int i, int j, Cell_status who)
+    public bool Check_for_Victory(Cell_status who, Cell[,] game_board)
+    {
+        for(int i=0;i<game_board.GetLength(0);i++)
+        {
+            for(int j=0; j<game_board.GetLength(1);j++)
+            {
+                if(game_board[i,j].status==who && Check_Four(i,j,who,game_board))
+                    return true;
+            }
+        }
+        return false;
+    }
+
+    
+
+    private bool Check_Four(int i, int j, Cell_status who, Cell[,] board)
     {
         //horizontal check
         if(i<board.GetLength(0)-4 &&
