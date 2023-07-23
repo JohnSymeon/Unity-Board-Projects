@@ -63,7 +63,8 @@ public class GameController : MonoBehaviour
 
     void Computer_Played()
     {
-        game_board.Who_Plays_And_Return_If_Full(Cell_status.Computer, UnityEngine.Random.Range(0,9));
+        //game_board.Who_Plays_And_Return_If_Full(Cell_status.Computer, UnityEngine.Random.Range(0,9));
+        game_board.AI_Plays(Cell_status.Computer,1000);
         Instantiate(computer_mark, game_board.last_played_position ,transform.rotation);
         if(game_board.Check_for_Victory(Cell_status.Computer))
             Debug.Log("computer wins");
@@ -103,5 +104,8 @@ public class GameController : MonoBehaviour
         }
 
     }
+
+}
+
 
 }
