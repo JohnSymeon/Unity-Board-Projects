@@ -1,8 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-
-
+using System.Linq;
 
 
 public class Board_Grid
@@ -58,10 +57,28 @@ public class Board_Grid
         return false;
     }
 
+    public bool Who_Plays_And_Return_If_Full(Cell_status who, int col, Cell[,] board )
+    {
+        for(int i=0;i<board.GetLength(1);i++)
+        {
+            if(board[i,col].status==Cell_status.Neutral)
+            {
+                board[i,col].status = who;
+                return true;
+            }
+                
+        }
+        return false;
+    }
+
+
     public void AI_Plays(Cell_status who, int MONTE_NUMBER)
     {
 
         int[] check_for_wins = new int[width];
+        int[] check_for_losses = new int[width];
+        int[] arr1 = {0,1,2,3,4,5,6,7,8,9};
+        int[] arr2 = {0,1,2,3,4,5,6,7,8,9};
         for(int i=0;i<width;i++)
             check_for_wins[i]=0;
 
@@ -77,7 +94,7 @@ public class Board_Grid
                     board_monte[i,j].status = board[i,j].status;
                 }
             }
-            for(int i=0;i<width;i++)
+            /*    for(int i=0;i<width;i++)
             {
                 for(int j=0;j<height;j++)
                 {
@@ -91,7 +108,45 @@ public class Board_Grid
                         }    
                     }            
                 }
+            }*/
+            System.Random rnd = new System.Random();
+            arr1 = arr1.OrderBy(x=>rnd.Next()).ToArray();
+            System.Random rnd2 = new System.Random();
+            arr2 = arr2.OrderBy(x=>rnd2.Next()).ToArray();
+
+            bool exited = false;
+            foreach(int i in arr1)
+            {
+                foreach(int j in arr2)
+                {
+                    if(board_monte[i,j].status==Cell_status.Neutral)
+                    {
+                        if(Random.Range(0f,1f)>=0.5f)
+                        {
+                            Who_Plays_And_Return_If_Full(who,j,board_monte);
+                            if(Check_for_Victory(who, board_monte))
+                            {
+                                exited = true;
+                                break;
+                            }
+                        }
+                        else
+                        {
+                            Who_Plays_And_Return_If_Full(Cell_status.Player,j,board_monte);
+                            if(Check_for_Victory(Cell_status.Player, board_monte))
+                            {
+                                exited = true;
+                                break;
+                            }
+                        }  
+                    }   
+                }
+                if(exited)
+                    break;
             }
+
+
+
 
             int[] comp_played = new int[width];
             for(int i=0;i<width;i++)
@@ -118,19 +173,50 @@ public class Board_Grid
                         check_for_wins[i]+=1;
                 }
             }
+
+            if(Check_for_Victory(Cell_status.Player, board_monte))
+            {
+                for(int i=0;i<width;i++)
+                {
+                    if(comp_played[i]>-1)
+                        check_for_losses[i]+=1;
+                }
+
+            }
         }
        
-        int max =0;
+        float max =0f;
         int pos=0;
         for(int i=0;i<width;i++)
         {
-            if(check_for_wins[i]>max)
+            if((float)check_for_wins[i]/(float)check_for_losses[i]>max)
             {
                 pos = i;
-                max = check_for_wins[i];
+                max = (float)check_for_wins[i]/(float)check_for_losses[i];
             }
         }
-
+/*
+        Cell[,] board_monte2 = new Cell[width, height];
+        for(int i=0;i<width;i++)
+        {
+            for(int j=0;j<height;j++)
+            {
+                board_monte2[i,j] = new Cell();
+                board_monte2[i,j].status = board[i,j].status;
+            }
+        }
+        
+        for(int j=0;j<width;j++)
+        {
+            if(Who_Plays_And_Return_If_Full(who,j,board_monte2) && Check_for_Victory(who,board_monte2))
+            {
+                pos = j;
+                break;
+            }
+        }
+*/
+        Debug.Log(max);
+        Debug.Log(pos);
         Who_Plays_And_Return_If_Full(who,pos);
     }
 
