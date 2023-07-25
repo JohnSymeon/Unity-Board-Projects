@@ -64,6 +64,7 @@ public class Board_Grid
             if(board[i,col].status==Cell_status.Neutral)
             {
                 board[i,col].status = who;
+                
                 return true;
             }
                 
@@ -80,7 +81,12 @@ public class Board_Grid
         int[] arr1 = {0,1,2,3,4,5,6,7,8,9};
         int[] arr2 = {0,1,2,3,4,5,6,7,8,9};
         for(int i=0;i<width;i++)
+        {
             check_for_wins[i]=0;
+            check_for_losses[i]=0;
+        }
+            
+        
 
         for(int k=0;k<MONTE_NUMBER;k++)
         {
@@ -94,32 +100,22 @@ public class Board_Grid
                     board_monte[i,j].status = board[i,j].status;
                 }
             }
-            /*    for(int i=0;i<width;i++)
-            {
-                for(int j=0;j<height;j++)
-                {
-                    if(board_monte[i,j].status==Cell_status.Neutral)
-                    {
-                        if(Random.Range(0f,1f)>=0.5f)
-                            board_monte[i,j].status = Cell_status.Player;
-                        else
-                        {
-                            board_monte[i,j].status = Cell_status.Computer;
-                        }    
-                    }            
-                }
-            }*/
+
             System.Random rnd = new System.Random();
             arr1 = arr1.OrderBy(x=>rnd.Next()).ToArray();
             System.Random rnd2 = new System.Random();
             arr2 = arr2.OrderBy(x=>rnd2.Next()).ToArray();
+            
+            int[] comp_played = new int[width];
+            for(int i=0;i<width;i++)
+                comp_played[i] = -1;
 
             bool exited = false;
             foreach(int i in arr1)
             {
                 foreach(int j in arr2)
                 {
-                    if(board_monte[i,j].status==Cell_status.Neutral)
+                    if(board_monte[9,j].status==Cell_status.Neutral)
                     {
                         if(Random.Range(0f,1f)>=0.5f)
                         {
@@ -148,21 +144,18 @@ public class Board_Grid
 
 
 
-            int[] comp_played = new int[width];
-            for(int i=0;i<width;i++)
-                comp_played[i] = -1;
             
             for(int i=0;i<width;i++)
             {
                 for(int j=0;j<height;j++)
                 {
-                    if(board[i,j].status==Cell_status.Neutral && board_monte[i,j].status==Cell_status.Computer && comp_played[j]==-1)
+                    if(board[i,j].status==Cell_status.Neutral && board_monte[i,j].status==Cell_status.Computer && comp_played[j]==-1 && 
+                    ( i==0 || board[i-1,j].status!=Cell_status.Neutral ) )
                     {
                         comp_played[j] = i;
                     }
                 }
             }
-
 
     
             if(Check_for_Victory(who, board_monte))
@@ -173,8 +166,7 @@ public class Board_Grid
                         check_for_wins[i]+=1;
                 }
             }
-
-            if(Check_for_Victory(Cell_status.Player, board_monte))
+            else
             {
                 for(int i=0;i<width;i++)
                 {
@@ -183,40 +175,22 @@ public class Board_Grid
                 }
 
             }
+            //if(Check_for_Victory(Cell_status.Player, board_monte))
         }
        
         float max =0f;
         int pos=0;
         for(int i=0;i<width;i++)
         {
-            if((float)check_for_wins[i]/(float)check_for_losses[i]>max)
+            if(( (float)check_for_wins[i] )/( (float)check_for_losses[i] )>max)
             {
                 pos = i;
-                max = (float)check_for_wins[i]/(float)check_for_losses[i];
+                max = ( (float)check_for_wins[i] )/( (float)check_for_losses[i] );
             }
         }
-/*
-        Cell[,] board_monte2 = new Cell[width, height];
-        for(int i=0;i<width;i++)
-        {
-            for(int j=0;j<height;j++)
-            {
-                board_monte2[i,j] = new Cell();
-                board_monte2[i,j].status = board[i,j].status;
-            }
-        }
-        
-        for(int j=0;j<width;j++)
-        {
-            if(Who_Plays_And_Return_If_Full(who,j,board_monte2) && Check_for_Victory(who,board_monte2))
-            {
-                pos = j;
-                break;
-            }
-        }
-*/
+
         Debug.Log(max);
-        Debug.Log(pos);
+        //Debug.Log(pos);
         Who_Plays_And_Return_If_Full(who,pos);
     }
 
@@ -258,22 +232,22 @@ public class Board_Grid
     private bool Check_Four(int i, int j, Cell_status who, Cell[,] board)
     {
         //horizontal check
-        if(i<board.GetLength(0)-4 &&
+        if(i<board.GetLength(0)-3 &&
         board[i+1,j].status==who && board[i+2,j].status==who && board[i+3,j].status==who)
             return true;
 
         //vertical check
-        if(j<board.GetLength(1)-4 &&
+        if(j<board.GetLength(1)-3 &&
         board[i,j+1].status==who && board[i,j+2].status==who && board[i,j+3].status==who)
             return true;
 
         //diagonal check upper
-        if(i<board.GetLength(0)-4 && j<board.GetLength(1)-4 &&
+        if(i<board.GetLength(0)-3 && j<board.GetLength(1)-3 &&
         board[i+1,j+1].status==who &&  board[i+2,j+2].status==who && board[i+3,j+3].status==who)
             return true;
         
         //diagonal check lower
-        if(i>3 && j<board.GetLength(1)-4 &&
+        if(i>2 && j<board.GetLength(1)-3 &&
         board[i-1,j+1].status==who &&  board[i-2,j+2].status==who && board[i-3,j+3].status==who)
             return true;
         
