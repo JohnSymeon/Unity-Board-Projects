@@ -16,9 +16,6 @@ public class GameController : MonoBehaviour
 
     public Buttons[] buttons;
 
-
-
-
     [Serializable]
     public struct Buttons
     {
@@ -30,7 +27,7 @@ public class GameController : MonoBehaviour
 
     void Start()
     {
-        Create_Board(10);
+        Create_Board(6,7);
 
         for(int i=0;i<buttons.Length;i++)
         {
@@ -63,7 +60,7 @@ public class GameController : MonoBehaviour
 
     void Computer_Played()
     {
-        game_board.AI_Plays(Cell_status.Computer,1000);
+        game_board.AI_Plays(Cell_status.Computer, 1000);
         Instantiate(computer_mark, game_board.last_played_position ,transform.rotation);
         if(game_board.Check_for_Victory(Cell_status.Computer))
             Debug.Log("computer wins");
@@ -88,13 +85,13 @@ public class GameController : MonoBehaviour
         who_plays=Cell_status.Computer;
     }
 
-    public void Create_Board(int N)
+    public void Create_Board(int N,int M)
     {
-        game_board = new Board_Grid(N,N);
+        game_board = new Board_Grid(N,M);
         
         for(int i =0;i<N;i++)
         {
-            for(int j=0;j<N;j++)
+            for(int j=0;j<M;j++)
             {
                 GameObject obj = Instantiate(cell_object, new Vector3((float)game_board.board[i,j].y_pos-Board_Grid.y_offset ,(float)game_board.board[i,j].x_pos-Board_Grid.x_offset ,0 ), transform.rotation);
                 game_board.Set_Object_to_Cell( i , j, obj );
@@ -106,5 +103,3 @@ public class GameController : MonoBehaviour
 
 }
 
-
-}
