@@ -12,6 +12,8 @@ public class GameController : MonoBehaviour
     public GameObject player_mark;
     public GameObject computer_mark;
 
+    public bool is_dropping;
+
     Cell_status who_plays =Cell_status.Player;
 
     public Buttons[] buttons;
@@ -39,9 +41,9 @@ public class GameController : MonoBehaviour
     void Update()
     {
 
-        if(who_plays== Cell_status.Player)
+        if(who_plays== Cell_status.Player && !is_dropping)
         {
-
+            is_dropping = true;
             foreach(Buttons but in buttons)
             {
                 if(!but.reachedMax)
@@ -49,19 +51,23 @@ public class GameController : MonoBehaviour
             }
 
         }
-        else
+        else if(who_plays== Cell_status.Computer && !is_dropping)
         {
+            is_dropping = true;
             Debug.Log("comp plays");
             Computer_Played();
             who_plays = Cell_status.Player;
         }
+
 
     }
 
     void Computer_Played()
     {
         game_board.AI_Plays(Cell_status.Computer, 1000);
-        Instantiate(computer_mark, game_board.last_played_position ,transform.rotation);
+
+        Instantiate(computer_mark, new Vector3(game_board.last_played_position.x,game_board.last_played_position.y+8f,0f ) ,transform.rotation);
+
         if(game_board.Check_for_Victory(Cell_status.Computer))
             Debug.Log("computer wins");
     }
@@ -70,7 +76,7 @@ public class GameController : MonoBehaviour
     {
         buttons[col].reachedMax = game_board.Who_Plays_And_Return_If_Full(Cell_status.Player, col);
 
-        Instantiate(player_mark, game_board.last_played_position ,transform.rotation);
+        Instantiate(player_mark, new Vector3(game_board.last_played_position.x,game_board.last_played_position.y+8f,0f ) ,transform.rotation);
 
         Debug.Log("Player played");
 
@@ -84,6 +90,7 @@ public class GameController : MonoBehaviour
             Debug.Log("player wins");
         who_plays=Cell_status.Computer;
     }
+
 
     public void Create_Board(int N,int M)
     {
