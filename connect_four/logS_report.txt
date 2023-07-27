@@ -1,0 +1,12 @@
+19/7/23 connect 4 board is built /geojo
+20/7/23 player plays , button inserted ( not fully design) ,  win logic /geojo
+22/7/23 the marks can go in the right place in the board, ai random plays version , first game placed (we lost) /geojo
+23/7/23 monte carlo ai picks array - position , need to find and block opponent , make the winning move 
+make a new scrpt file /geojo
+24 / 7 / 23, Ai got smarter, makes the winning move
+Probably will overtake humanity in the near future
+
+Ai be kind with us /geojo
+25/7/23 fixing - fine tuning - debugging ai logic /geojo
+26/7/23 cleaned up code- prioritize loss check other than victories after monte to improve AI- reduce board to its proper size /simeo
+27/7/23 buttons done , dropping animations done , drop logic /geojo
