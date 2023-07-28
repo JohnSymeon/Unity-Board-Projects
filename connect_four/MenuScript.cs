@@ -10,18 +10,19 @@ public class MenuScript : MonoBehaviour
     public GameObject Play_CPU;
     public static int MONTE_NUMBER;
 
+    //use to enter difficulties selection menu
     public void OnPlayCPU()
     {
         MainMenu.SetActive(false);
         Play_CPU.SetActive(true);
     }
-
+    //use to return to the main menu
     public void OnReturn()
     {
         MainMenu.SetActive(true);
         Play_CPU.SetActive(false);
     }
-
+    //use to select a monte carlo number to change the difficulty of the game
     public void OnSelectDifficulty(int number)
     {
         MONTE_NUMBER = number;
