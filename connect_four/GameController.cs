@@ -18,6 +18,8 @@ public class GameController : MonoBehaviour
 
     public Buttons[] buttons;
 
+    public GameObject canvas;
+
     [Serializable]
     public struct Buttons
     {
@@ -29,6 +31,7 @@ public class GameController : MonoBehaviour
 
     void Start()
     {
+        Debug.Log(MenuScript.MONTE_NUMBER);
         Create_Board(6,7);
 
         for(int i=0;i<buttons.Length;i++)
@@ -36,11 +39,14 @@ public class GameController : MonoBehaviour
             buttons[i].isActive = true;
             buttons[i].reachedMax = false;
         }
+
+        canvas.SetActive(true);
+
     }
 
     void Update()
     {
-
+        
         if(who_plays== Cell_status.Player && !is_dropping)
         {
             is_dropping = true;
@@ -58,13 +64,13 @@ public class GameController : MonoBehaviour
             Computer_Played();
             who_plays = Cell_status.Player;
         }
-
+        
 
     }
 
     void Computer_Played()
     {
-        game_board.AI_Plays(Cell_status.Computer, 1000);
+        game_board.AI_Plays(Cell_status.Computer, MenuScript.MONTE_NUMBER);
 
         Instantiate(computer_mark, new Vector3(game_board.last_played_position.x,game_board.last_played_position.y+8f,0f ) ,transform.rotation);
 
@@ -109,4 +115,3 @@ public class GameController : MonoBehaviour
     }
 
 }
-
