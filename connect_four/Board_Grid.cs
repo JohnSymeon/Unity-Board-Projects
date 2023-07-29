@@ -1,3 +1,8 @@
+/*
+    The connect four board class providing the board, the player's and computer's turn
+    and an AI that uses the monte carlo method to find the best move by determining which
+    play brings the biggest wins to losses ratio.
+*/
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
