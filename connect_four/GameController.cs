@@ -1,3 +1,7 @@
+/*
+    This script essentially acts as the game handler during the actual connect four gameplay scene, 
+    initiallizing the board and controlling which player has an active turn.
+*/
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -67,7 +71,7 @@ public class GameController : MonoBehaviour
         
 
     }
-
+    //use for the computer's turn
     void Computer_Played()
     {
         game_board.AI_Plays(Cell_status.Computer, MenuScript.MONTE_NUMBER);
@@ -77,7 +81,7 @@ public class GameController : MonoBehaviour
         if(game_board.Check_for_Victory(Cell_status.Computer))
             Debug.Log("computer wins");
     }
-
+    //use for player's turn
     public void Player_Played(int col)
     {
         buttons[col].reachedMax = game_board.Who_Plays_And_Return_If_Full(Cell_status.Player, col);
@@ -97,7 +101,7 @@ public class GameController : MonoBehaviour
         who_plays=Cell_status.Computer;
     }
 
-
+    //use to initialize the game
     public void Create_Board(int N,int M)
     {
         game_board = new Board_Grid(N,M);
