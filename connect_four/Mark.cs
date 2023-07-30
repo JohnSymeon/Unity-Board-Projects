@@ -1,3 +1,8 @@
+/*
+This script is used by each Mark when it is played, moving smoothly and updating the GameController
+that it reached its destination.
+*/
+
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
