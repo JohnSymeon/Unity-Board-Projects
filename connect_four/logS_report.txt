@@ -11,3 +11,4 @@ Ai be kind with us /geojo
 26/7/23 cleaned up code- prioritize loss check other than victories after monte to improve AI- reduce board to its proper size /simeo
 27/7/23 buttons done , dropping animations done , drop logic /geojo
 28/7/23 menu created , difficult of ai done /geojo
+31/7/23 ai is thinking delay , win - lose screen  + interactions /geojo
