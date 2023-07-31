@@ -6,7 +6,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using System;
-
+using UnityEngine.SceneManagement;
 
 public class GameController : MonoBehaviour
 {
@@ -23,6 +23,11 @@ public class GameController : MonoBehaviour
     public Buttons[] buttons;
 
     public GameObject canvas;
+
+    public bool CPU_is_thinking;
+
+    public GameObject CPU_won;
+    public GameObject player_won;
 
     [Serializable]
     public struct Buttons
