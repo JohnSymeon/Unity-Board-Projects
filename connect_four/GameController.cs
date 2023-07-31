@@ -64,27 +64,47 @@ public class GameController : MonoBehaviour
                 if(!but.reachedMax)
                     but.button.SetActive(true);
             }
-
         }
-        else if(who_plays== Cell_status.Computer && !is_dropping)
+        else if(who_plays== Cell_status.Computer && !is_dropping && !CPU_is_thinking)
         {
-            is_dropping = true;
-            Debug.Log("comp plays");
-            Computer_Played();
-            who_plays = Cell_status.Player;
+            CPU_is_thinking = true;
+            StartCoroutine(Computer_Played());
         }
         
 
     }
-    //use for the computer's turn
-    void Computer_Played()
-    {
-        game_board.AI_Plays(Cell_status.Computer, MenuScript.MONTE_NUMBER);
 
+    public void Restart_Game()
+    {
+        Time.timeScale =1;
+        SceneManager.LoadScene(1);
+    }
+    public void Exit_Menu()
+    {
+        Time.timeScale =1;
+        SceneManager.LoadScene(0);
+    }
+
+    //use for the computer's turn
+    IEnumerator Computer_Played()
+    {
+        is_dropping = true;
+        game_board.AI_Plays(Cell_status.Computer, MenuScript.MONTE_NUMBER);
+        yield return new WaitForSeconds(MenuScript.MONTE_NUMBER/10000f);
         Instantiate(computer_mark, new Vector3(game_board.last_played_position.x,game_board.last_played_position.y+8f,0f ) ,transform.rotation);
 
         if(game_board.Check_for_Victory(Cell_status.Computer))
+        {
             Debug.Log("computer wins");
+            CPU_won.SetActive(true);
+            Time.timeScale =0;
+            canvas.SetActive(false);
+        }
+            
+        Debug.Log("comp plays");
+        who_plays = Cell_status.Player;
+        CPU_is_thinking = false;
+        yield return null;
     }
     //use for player's turn
     public void Player_Played(int col)
@@ -102,11 +122,17 @@ public class GameController : MonoBehaviour
         }
             
         if(game_board.Check_for_Victory(Cell_status.Player))
+        {
             Debug.Log("player wins");
+            player_won.SetActive(true);
+            Time.timeScale=0;
+            canvas.SetActive(false);
+        }
+            
         who_plays=Cell_status.Computer;
     }
 
-    //use to initialize the game
+     //use to initialize the game
     public void Create_Board(int N,int M)
     {
         game_board = new Board_Grid(N,M);
@@ -124,3 +150,4 @@ public class GameController : MonoBehaviour
     }
 
 }
+
