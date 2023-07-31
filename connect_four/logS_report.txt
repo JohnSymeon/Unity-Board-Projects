@@ -12,6 +12,3 @@ Ai be kind with us /geojo
 27/7/23 buttons done , dropping animations done , drop logic /geojo
 28/7/23 menu created , difficult of ai done /geojo
 31/7/23 ai is thinking delay , win - lose screen  + interactions /geojo
-
-
-hnbjk
