@@ -9,7 +9,15 @@ public class MenuScript : MonoBehaviour
     public GameObject MainMenu;
     public GameObject Play_CPU;
     public static int MONTE_NUMBER;
+    public static bool PVP_mode;
 
+    public void OnPlayPVP()
+    {
+        PVP_mode = true;
+        MainMenu.SetActive(false);
+        SceneManager.LoadScene(1);
+    }
+    
     //use to enter difficulties selection menu
     public void OnPlayCPU()
     {
@@ -28,4 +36,6 @@ public class MenuScript : MonoBehaviour
         MONTE_NUMBER = number;
         SceneManager.LoadScene(1);
     }
+
+    
 }
