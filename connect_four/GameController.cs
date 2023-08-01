@@ -7,6 +7,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using System;
 using UnityEngine.SceneManagement;
+using TMPro;
 
 public class GameController : MonoBehaviour
 {
@@ -28,6 +29,10 @@ public class GameController : MonoBehaviour
 
     public GameObject CPU_won;
     public GameObject player_won;
+    public GameObject Red_won;
+    public GameObject Yellow_won;
+
+    public TMP_Text whos_turn_txt;
 
     [Serializable]
     public struct Buttons
@@ -58,6 +63,15 @@ public class GameController : MonoBehaviour
         
         if(who_plays== Cell_status.Player && !is_dropping)
         {
+            Check_who_won();
+            if(!MenuScript.PVP_mode && whos_turn_txt.text!="")
+            {
+                whos_turn_txt.text = "Your Turn!";
+            }
+            else if(whos_turn_txt.text!="")
+            {
+                whos_turn_txt.text = "Red's Turn!";
+            }
             is_dropping = true;
             foreach(Buttons but in buttons)
             {
@@ -67,10 +81,73 @@ public class GameController : MonoBehaviour
         }
         else if(who_plays== Cell_status.Computer && !is_dropping && !CPU_is_thinking)
         {
-            CPU_is_thinking = true;
-            StartCoroutine(Computer_Played());
+            Check_who_won();
+            if(!MenuScript.PVP_mode)
+            {   
+                if(whos_turn_txt.text!="")
+                    whos_turn_txt.text = "CPU's turn";
+                CPU_is_thinking = true;
+                StartCoroutine(Computer_Played());
+            }
+            else
+            {
+                if(whos_turn_txt.text!="")
+                    whos_turn_txt.text = "Yellow's Turn!";
+                is_dropping = true;
+                foreach(Buttons but in buttons)
+                {
+                    if(!but.reachedMax)
+                        but.button.SetActive(true);
+                }
+
+            }
         }
         
+
+    }
+
+    private void Check_who_won()
+    {
+        if(!MenuScript.PVP_mode)
+        {
+            if(game_board.Check_for_Victory(Cell_status.Computer))
+            {
+                whos_turn_txt.text="";
+                Debug.Log("computer wins");
+                CPU_won.SetActive(true);
+                Time.timeScale =0;
+                canvas.SetActive(false);
+            }
+            else if(game_board.Check_for_Victory(Cell_status.Player))
+            {
+                whos_turn_txt.text="";
+                Debug.Log("player wins");
+                player_won.SetActive(true);
+                Time.timeScale=0;
+                canvas.SetActive(false);
+            }
+        }
+        else
+        {
+            if(game_board.Check_for_Victory(Cell_status.Computer))
+            {
+                whos_turn_txt.text="";
+                Debug.Log("Yellow wins");
+                Yellow_won.SetActive(true);
+                Time.timeScale =0;
+                canvas.SetActive(false);  
+            }
+            else if(game_board.Check_for_Victory(Cell_status.Player))
+            {
+                whos_turn_txt.text="";
+                Debug.Log("Red wins");
+                Red_won.SetActive(true);
+                Time.timeScale=0;
+                canvas.SetActive(false);    
+            }
+
+        }
+
 
     }
 
@@ -92,14 +169,6 @@ public class GameController : MonoBehaviour
         game_board.AI_Plays(Cell_status.Computer, MenuScript.MONTE_NUMBER);
         yield return new WaitForSeconds(MenuScript.MONTE_NUMBER/10000f);
         Instantiate(computer_mark, new Vector3(game_board.last_played_position.x,game_board.last_played_position.y+8f,0f ) ,transform.rotation);
-
-        if(game_board.Check_for_Victory(Cell_status.Computer))
-        {
-            Debug.Log("computer wins");
-            CPU_won.SetActive(true);
-            Time.timeScale =0;
-            canvas.SetActive(false);
-        }
             
         Debug.Log("comp plays");
         who_plays = Cell_status.Player;
@@ -109,27 +178,31 @@ public class GameController : MonoBehaviour
     //use for player's turn
     public void Player_Played(int col)
     {
-        buttons[col].reachedMax = game_board.Who_Plays_And_Return_If_Full(Cell_status.Player, col);
-
-        Instantiate(player_mark, new Vector3(game_board.last_played_position.x,game_board.last_played_position.y+8f,0f ) ,transform.rotation);
-
-        Debug.Log("Player played");
-
-        for(int i=0;i<buttons.Length;i++)
+        if(who_plays==Cell_status.Player)
         {
-            buttons[i].isActive = false;
-            buttons[i].button.SetActive(false);
+            buttons[col].reachedMax = game_board.Who_Plays_And_Return_If_Full(Cell_status.Player, col);
+            Instantiate(player_mark, new Vector3(game_board.last_played_position.x,game_board.last_played_position.y+8f,0f ) ,transform.rotation);
+            Debug.Log("Player 1 played");
+            for(int i=0;i<buttons.Length;i++)
+            {
+                buttons[i].isActive = false;
+                buttons[i].button.SetActive(false);
+            }
+            who_plays=Cell_status.Computer;
         }
-            
-        if(game_board.Check_for_Victory(Cell_status.Player))
+        else
         {
-            Debug.Log("player wins");
-            player_won.SetActive(true);
-            Time.timeScale=0;
-            canvas.SetActive(false);
+            buttons[col].reachedMax = game_board.Who_Plays_And_Return_If_Full(Cell_status.Computer, col);
+            Instantiate(computer_mark, new Vector3(game_board.last_played_position.x,game_board.last_played_position.y+8f,0f ) ,transform.rotation);
+            Debug.Log("Player 2 played");
+            for(int i=0;i<buttons.Length;i++)
+            {
+                buttons[i].isActive = false;
+                buttons[i].button.SetActive(false);
+            }
+            who_plays=Cell_status.Player;
         }
-            
-        who_plays=Cell_status.Computer;
+        
     }
 
      //use to initialize the game
@@ -150,4 +223,3 @@ public class GameController : MonoBehaviour
     }
 
 }
-
