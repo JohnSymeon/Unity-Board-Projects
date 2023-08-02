@@ -11,6 +11,7 @@ public class MenuScript : MonoBehaviour
     public static int MONTE_NUMBER;
     public static bool PVP_mode;
 
+    //use to select player vs player game mode
     public void OnPlayPVP()
     {
         PVP_mode = true;
