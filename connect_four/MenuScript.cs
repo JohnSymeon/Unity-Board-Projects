@@ -1,5 +1,5 @@
 /*
-This script ontrolls the main menu button functions.
+This script controlls the main menu button functions.
 */
 using System.Collections;
 using System.Collections.Generic;
