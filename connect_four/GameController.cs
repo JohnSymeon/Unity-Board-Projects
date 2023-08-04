@@ -58,6 +58,7 @@ public class GameController : MonoBehaviour
 
     }
 
+    
     void Update()
     {
         
@@ -102,8 +103,7 @@ public class GameController : MonoBehaviour
 
             }
         }
-        
-
+    
     }
 //use to check for victory after the mark reaches its destination 
 
@@ -118,6 +118,7 @@ public class GameController : MonoBehaviour
                 CPU_won.SetActive(true);
                 Time.timeScale =0;
                 canvas.SetActive(false);
+                FindObjectOfType<AudioManager>().Play("lost");
             }
             else if(game_board.Check_for_Victory(Cell_status.Player))
             {
@@ -126,6 +127,7 @@ public class GameController : MonoBehaviour
                 player_won.SetActive(true);
                 Time.timeScale=0;
                 canvas.SetActive(false);
+                FindObjectOfType<AudioManager>().Play("won");
             }
         }
         else
@@ -136,7 +138,8 @@ public class GameController : MonoBehaviour
                 Debug.Log("Yellow wins");
                 Yellow_won.SetActive(true);
                 Time.timeScale =0;
-                canvas.SetActive(false);  
+                canvas.SetActive(false);
+                FindObjectOfType<AudioManager>().Play("won");
             }
             else if(game_board.Check_for_Victory(Cell_status.Player))
             {
@@ -144,7 +147,8 @@ public class GameController : MonoBehaviour
                 Debug.Log("Red wins");
                 Red_won.SetActive(true);
                 Time.timeScale=0;
-                canvas.SetActive(false);    
+                canvas.SetActive(false);
+                FindObjectOfType<AudioManager>().Play("won"); 
             }
 
         }
@@ -154,11 +158,13 @@ public class GameController : MonoBehaviour
 
     public void Restart_Game()
     {
+        FindObjectOfType<AudioManager>().Play("UI_button");
         Time.timeScale =1;
         SceneManager.LoadScene(1);
     }
     public void Exit_Menu()
     {
+        FindObjectOfType<AudioManager>().Play("UI_button");
         Time.timeScale =1;
         SceneManager.LoadScene(0);
     }
@@ -170,7 +176,7 @@ public class GameController : MonoBehaviour
         game_board.AI_Plays(Cell_status.Computer, MenuScript.MONTE_NUMBER);
         yield return new WaitForSeconds(MenuScript.MONTE_NUMBER/10000f);
         Instantiate(computer_mark, new Vector3(game_board.last_played_position.x,game_board.last_played_position.y+8f,0f ) ,transform.rotation);
-            
+        FindObjectOfType<AudioManager>().Play("cpu_plays");
         Debug.Log("comp plays");
         who_plays = Cell_status.Player;
         CPU_is_thinking = false;
@@ -203,6 +209,7 @@ public class GameController : MonoBehaviour
             }
             who_plays=Cell_status.Player;
         }
+        FindObjectOfType<AudioManager>().Play("player_plays");
         
     }
 
