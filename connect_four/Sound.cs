@@ -1,3 +1,6 @@
+/*
+basic sound class used by AudioManager to handle a sound clip.
+*/
 using UnityEngine.Audio;
 using UnityEngine;
 
