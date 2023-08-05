@@ -12,7 +12,7 @@ Ai be kind with us /geojo
 27/7/23 buttons done , dropping animations done , drop logic /geojo
 28/7/23 menu created , difficult of ai done /geojo
 31/7/23 ai is thinking delay , win - lose screen  + interactions /geojo
-1/8/23 ui fixes , check for victory fixes ,pvp enabled , skeleton is done must apply make up
+1/8/23 ui fixes , check for victory fixes , pvp enabled , skeleton is done must apply make up /geojo
 4/8/23 4/8/23 sounds done (up down) /geojo 
-
+5/8/23 ui polishing , backround sprites inserted /geojo
 
