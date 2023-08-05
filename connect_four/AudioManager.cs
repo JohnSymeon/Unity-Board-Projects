@@ -1,3 +1,7 @@
+/*
+This script handles all in game sounds by calling its methods from any script in any scene.
+*/
+
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
