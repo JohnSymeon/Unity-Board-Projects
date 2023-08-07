@@ -1,3 +1,6 @@
+/*
+This script handles all background elements.
+*/
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
