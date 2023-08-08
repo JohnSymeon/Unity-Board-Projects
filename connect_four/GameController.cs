@@ -8,6 +8,7 @@ using UnityEngine;
 using System;
 using UnityEngine.SceneManagement;
 using TMPro;
+using UnityEngine.UI;
 
 public class GameController : MonoBehaviour
 {
@@ -34,6 +35,16 @@ public class GameController : MonoBehaviour
 
     public TMP_Text whos_turn_txt;
 
+    //[Serializable]
+    public Sprite[] player_sprites;
+    //[Serializable]
+    public Sprite[] enemy_sprites;
+
+    public Image UI_turn_image_obj;
+
+    Sprite player_sprite;
+    Sprite p2_or_CPU_sprite;
+
     [Serializable]
     public struct Buttons
     {
@@ -45,6 +56,8 @@ public class GameController : MonoBehaviour
 
     void Start()
     {
+        SetSprites(MenuScript.MONTE_NUMBER, MenuScript.PVP_mode);
+
         Debug.Log(MenuScript.MONTE_NUMBER);
         Create_Board(6,7);
 
@@ -64,46 +77,85 @@ public class GameController : MonoBehaviour
         
         if(who_plays== Cell_status.Player && !is_dropping)
         {
-            Check_who_won();
-            if(!MenuScript.PVP_mode && whos_turn_txt.text!="")
-            {
-                whos_turn_txt.text = "Your Turn!";
-            }
-            else if(whos_turn_txt.text!="")
-            {
-                whos_turn_txt.text = "Red's Turn!";
-            }
+            Player_Is_Playing();
+        }
+        else if(who_plays== Cell_status.Computer && !is_dropping && !CPU_is_thinking)
+        {
+            P2_Or_CPU_Is_Playing();
+        }
+        
+
+    }
+
+
+
+    private void SetSprites(int N, bool PVP)
+    {
+        player_sprite = player_sprites[0];
+        if(PVP)
+        {
+            p2_or_CPU_sprite = player_sprites[1];
+        }
+        else
+        {
+            if(N==50)
+                p2_or_CPU_sprite = enemy_sprites[0];
+            else if(N==250)
+                p2_or_CPU_sprite = enemy_sprites[1];
+            else if(N==1000)
+                p2_or_CPU_sprite = enemy_sprites[2];
+            else if(N==10000)
+                p2_or_CPU_sprite = enemy_sprites[3];
+        }
+
+    }
+
+
+    private void P2_Or_CPU_Is_Playing()
+    {
+        Check_who_won();
+        if(!MenuScript.PVP_mode)
+        {   
+            if(whos_turn_txt.text!="")
+                whos_turn_txt.text = "      turn";
+            CPU_is_thinking = true;
+            StartCoroutine(Computer_Played());
+        }
+        else
+        {
+            if(whos_turn_txt.text!="")
+                whos_turn_txt.text = "      Turn!";
             is_dropping = true;
             foreach(Buttons but in buttons)
             {
                 if(!but.reachedMax)
                     but.button.SetActive(true);
             }
-        }
-        else if(who_plays== Cell_status.Computer && !is_dropping && !CPU_is_thinking)
-        {
-            Check_who_won();
-            if(!MenuScript.PVP_mode)
-            {   
-                if(whos_turn_txt.text!="")
-                    whos_turn_txt.text = "CPU's turn";
-                CPU_is_thinking = true;
-                StartCoroutine(Computer_Played());
-            }
-            else
-            {
-                if(whos_turn_txt.text!="")
-                    whos_turn_txt.text = "Yellow's Turn!";
-                is_dropping = true;
-                foreach(Buttons but in buttons)
-                {
-                    if(!but.reachedMax)
-                        but.button.SetActive(true);
-                }
 
-            }
         }
-    
+
+    }
+
+    private void Player_Is_Playing()
+    {
+        Check_who_won();
+        if(!MenuScript.PVP_mode && whos_turn_txt.text!="")
+        {
+            whos_turn_txt.text = "      Turn!";
+        }
+        else if(whos_turn_txt.text!="")
+        {
+            whos_turn_txt.text = "      Turn!";
+        }
+        is_dropping = true;
+        foreach(Buttons but in buttons)
+        {
+            if(!but.reachedMax)
+                but.button.SetActive(true);
+        }
+
+        UI_turn_image_obj.sprite = player_sprite;
+
     }
 //use to check for victory after the mark reaches its destination 
 
