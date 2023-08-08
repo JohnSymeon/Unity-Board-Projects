@@ -35,9 +35,7 @@ public class GameController : MonoBehaviour
 
     public TMP_Text whos_turn_txt;
 
-    //[Serializable]
     public Sprite[] player_sprites;
-    //[Serializable]
     public Sprite[] enemy_sprites;
 
     public Image UI_turn_image_obj;
@@ -161,6 +159,7 @@ public class GameController : MonoBehaviour
 
     private void Check_who_won()
     {
+        UI_turn_image_obj.sprite = p2_or_CPU_sprite;
         if(!MenuScript.PVP_mode)
         {
             if(game_board.Check_for_Victory(Cell_status.Computer))
