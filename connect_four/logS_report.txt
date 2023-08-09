@@ -16,4 +16,5 @@ Ai be kind with us /geojo
 4/8/23 4/8/23 sounds done (up down) /geojo 
 5/8/23 ui polishing , backround sprites inserted /geojo
 6/8/23 color the texts ,make up done , make space roks /geojo
-8/8/23 UI polishing , make characters and linked them to sprites
+8/8/23 UI polishing , make characters and linked them to sprites /geojo
+9/8/23 self potrait made , discover particles /geojo
