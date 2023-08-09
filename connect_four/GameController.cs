@@ -171,22 +171,25 @@ public class GameController : MonoBehaviour
     }
 //use to check for victory after the mark reaches its destination 
 
-    private void Check_who_won()
+   private void Check_who_won()
     {
         UI_turn_image_obj.sprite = p2_or_CPU_sprite;
         if(!MenuScript.PVP_mode)
         {
             if(game_board.Check_for_Victory(Cell_status.Computer))
             {
+                UI_turn_image_obj.transform.parent.gameObject.SetActive(false);
                 whos_turn_txt.text="";
                 Debug.Log("computer wins");
                 CPU_won.SetActive(true);
                 Time.timeScale =0;
                 canvas.SetActive(false);
                 FindObjectOfType<AudioManager>().Play("lost");
+                
             }
             else if(game_board.Check_for_Victory(Cell_status.Player))
             {
+                UI_turn_image_obj.transform.parent.gameObject.SetActive(false);
                 whos_turn_txt.text="";
                 Debug.Log("player wins");
                 player_won.SetActive(true);
@@ -199,6 +202,7 @@ public class GameController : MonoBehaviour
         {
             if(game_board.Check_for_Victory(Cell_status.Computer))
             {
+                UI_turn_image_obj.transform.parent.gameObject.SetActive(false);
                 whos_turn_txt.text="";
                 Debug.Log("Yellow wins");
                 Yellow_won.SetActive(true);
@@ -208,6 +212,7 @@ public class GameController : MonoBehaviour
             }
             else if(game_board.Check_for_Victory(Cell_status.Player))
             {
+                UI_turn_image_obj.transform.parent.gameObject.SetActive(false);
                 whos_turn_txt.text="";
                 Debug.Log("Red wins");
                 Red_won.SetActive(true);
