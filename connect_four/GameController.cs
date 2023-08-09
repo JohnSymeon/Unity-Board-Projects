@@ -43,6 +43,13 @@ public class GameController : MonoBehaviour
     Sprite player_sprite;
     Sprite p2_or_CPU_sprite;
 
+    public Image player_portrait;
+    public Image enemy_portrait;
+
+    public GameObject particle_enemy;
+    public GameObject particle_player;
+
+
     [Serializable]
     public struct Buttons
     {
@@ -106,6 +113,9 @@ public class GameController : MonoBehaviour
                 p2_or_CPU_sprite = enemy_sprites[3];
         }
 
+        player_portrait.sprite = player_sprite;
+        enemy_portrait.sprite = p2_or_CPU_sprite;
+
     }
 
 
@@ -131,6 +141,8 @@ public class GameController : MonoBehaviour
             }
 
         }
+        particle_player.SetActive(false);
+        particle_enemy.SetActive(true);
 
     }
 
@@ -153,6 +165,8 @@ public class GameController : MonoBehaviour
         }
 
         UI_turn_image_obj.sprite = player_sprite;
+        particle_player.SetActive(true);
+        particle_enemy.SetActive(false);
 
     }
 //use to check for victory after the mark reaches its destination 
