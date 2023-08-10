@@ -35,7 +35,9 @@ public class GameController : MonoBehaviour
 
     public TMP_Text whos_turn_txt;
 
+    //[Serializable]
     public Sprite[] player_sprites;
+    //[Serializable]
     public Sprite[] enemy_sprites;
 
     public Image UI_turn_image_obj;
@@ -48,7 +50,6 @@ public class GameController : MonoBehaviour
 
     public GameObject particle_enemy;
     public GameObject particle_player;
-
 
     [Serializable]
     public struct Buttons
@@ -76,7 +77,6 @@ public class GameController : MonoBehaviour
 
     }
 
-    
     void Update()
     {
         
@@ -91,8 +91,6 @@ public class GameController : MonoBehaviour
         
 
     }
-
-
 
     private void SetSprites(int N, bool PVP)
     {
@@ -167,11 +165,9 @@ public class GameController : MonoBehaviour
         UI_turn_image_obj.sprite = player_sprite;
         particle_player.SetActive(true);
         particle_enemy.SetActive(false);
-
     }
-//use to check for victory after the mark reaches its destination 
 
-   private void Check_who_won()
+    private void Check_who_won()
     {
         UI_turn_image_obj.sprite = p2_or_CPU_sprite;
         if(!MenuScript.PVP_mode)
@@ -242,11 +238,12 @@ public class GameController : MonoBehaviour
     //use for the computer's turn
     IEnumerator Computer_Played()
     {
+        
         is_dropping = true;
         game_board.AI_Plays(Cell_status.Computer, MenuScript.MONTE_NUMBER);
         yield return new WaitForSeconds(MenuScript.MONTE_NUMBER/10000f);
         Instantiate(computer_mark, new Vector3(game_board.last_played_position.x,game_board.last_played_position.y+8f,0f ) ,transform.rotation);
-        FindObjectOfType<AudioManager>().Play("cpu_plays");
+        FindObjectOfType<AudioManager>().Play("cpu_plays"); 
         Debug.Log("comp plays");
         who_plays = Cell_status.Player;
         CPU_is_thinking = false;
