@@ -18,3 +18,4 @@ Ai be kind with us /geojo
 6/8/23 color the texts ,make up done , make space roks /geojo
 8/8/23 UI polishing , make characters and linked them to sprites /geojo
 9/8/23 self potrait made , discover particles /geojo
+10/8/23 building tetris mode /geojo
