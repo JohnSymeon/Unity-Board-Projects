@@ -18,6 +18,8 @@ public class Board_Grid
     public static float x_offset = 0f;
     public static float y_offset = 0f;
 
+    public bool MODE_Tetris;
+
     public Board_Grid(int height, int width)
     {
         this.width=width;
@@ -222,7 +224,12 @@ public class Board_Grid
         //vertical check
         if(i<height-3 &&
         board[i+1,j].status==who && board[i+2,j].status==who && board[i+3,j].status==who)
+        {
+            if(MODE_Tetris)
+                MODE_Tetris_method(board[i,j], board[i+1,j], board[i+2,j], board[i+3,j]);
             return true;
+        }
+            
 
         //horizontal check
         if(j<width-3 &&
@@ -241,4 +248,39 @@ public class Board_Grid
         
         return false;
     }
+
+    private void MODE_Tetris_method(Cell c1, Cell c2, Cell c3, Cell c4)
+    {
+        Cell[] cells = {c1,c2,c3,c4};
+
+        for(int i=0;i<4;i++)
+        {
+            cells[i].status = Cell_status.Neutral;
+
+            var k = cells[i].x_pos;
+            var j = cells[i].y_pos;
+            if(k<height-1)
+                board[k+1,j].status = Cell_status.Neutral;
+            if(k>1)
+                board[k-1,j].status = Cell_status.Neutral;
+            if(j<width-1)
+                board[k,j+1].status = Cell_status.Neutral;
+            if(j>1)
+                board[k,j-1].status = Cell_status.Neutral;
+
+        }
+    }
+
+    public int Find_bottom_of_col(int curr_height, int col)
+    {
+        for(int j=curr_height;j>0;j--)
+        {
+            if(board[j, col].status!=Cell_status.Neutral)
+            {
+                return j;
+            }
+        }
+        return 0;
+    }
+
 }
