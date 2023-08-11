@@ -15,23 +15,46 @@ public class Mark : MonoBehaviour
 
     bool has_reached_target;
 
+    public Rigidbody2D rb;
+
     private GameController GC;
+
+    private bool allow_to_status;
+
     // Start is called before the first frame update
     void Start()
     {
+        rb = GetComponent<Rigidbody2D>();
         GC = FindObjectOfType<GameController>();
         last_played_pos = new Vector3(transform.position.x,transform.position.y-8f,0f );
+
+        StartCoroutine(Delay(0.5f));
     }
 
     // Update is called once per frame
-      void Update()
+    void Update()
     {
-        transform.position = Vector3.MoveTowards(transform.position,last_played_pos,speed*Time.deltaTime);
+        //transform.position = Vector3.MoveTowards(transform.position,last_played_pos,speed*Time.deltaTime);
         
-        Update_GC_On_Status();
+        //if(rb.velocity.y>0f)
+            //StartCoroutine(Delay(0.5f));
 
-        Check_for_Destruction();
+        if(allow_to_status)
+            Update_GC_On_Status();
+        Check_Destroy();
+
+       // Check_for_Destruction();
     }
+
+    void Check_Destroy()
+    {
+        if(GC.game_board.board[(int)transform.position.x, (int)transform.position.y].kill_switch)
+        {
+            GC.game_board.board[(int)transform.position.x, (int)transform.position.y].kill_switch = false;
+            Destroy(this);
+        }
+    }
+
 
     void Check_for_Destruction()
     {
@@ -49,15 +72,21 @@ public class Mark : MonoBehaviour
         
     }
 
+    IEnumerator Delay(float delay)
+    {
+        yield return new WaitForSeconds(delay);
+        allow_to_status = true;
+    }
 
     void Update_GC_On_Status()
     {
-        if(transform.position == last_played_pos && !has_reached_target)
+        if(rb.velocity.y==0f)
         {
             GC.is_dropping=false;
-            has_reached_target = true;
+            Debug.Log("reached bot");
+            allow_to_status = false;
         }
-        else if(!has_reached_target)
+        else
             GC.is_dropping=true;
     }
 }
