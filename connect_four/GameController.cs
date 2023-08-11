@@ -284,6 +284,7 @@ public class GameController : MonoBehaviour
     public void Create_Board(int N,int M)
     {
         game_board = new Board_Grid(N,M);
+        game_board.MODE_Tetris = MenuScript.MODE_Tetris;
         
         for(int i =0;i<N;i++)
         {
@@ -298,3 +299,4 @@ public class GameController : MonoBehaviour
     }
 
 }
+
