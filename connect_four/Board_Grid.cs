@@ -3,12 +3,6 @@
     and an AI that uses the monte carlo method to find the best move by determining which
     play brings the biggest wins to losses ratio.
 */
-using System.Collections;
-using System.Collections.Generic;
-using UnityEngine;
-using System.Linq;
-
-
 public class Board_Grid
 {
     private int width;
@@ -230,22 +224,31 @@ public class Board_Grid
             return true;
         }
             
-
         //horizontal check
         if(j<width-3 &&
         board[i,j+1].status==who && board[i,j+2].status==who && board[i,j+3].status==who)
+        {
+            if(MODE_Tetris)
+                MODE_Tetris_method(board[i,j], board[i,j+1], board[i,j+2], board[i,j+3]);
             return true;
+        }
 
         //diagonal check upper
         if(i<height-3 && j<width-3 &&
         board[i+1,j+1].status==who &&  board[i+2,j+2].status==who && board[i+3,j+3].status==who)
+        {
+            if(MODE_Tetris)
+                MODE_Tetris_method(board[i,j], board[i+1,j+1], board[i+2,j+2], board[i+3,j+3]);
             return true;
-        
+        }
         //diagonal check lower
         if(i>2 && j<width-3 &&
         board[i-1,j+1].status==who &&  board[i-2,j+2].status==who && board[i-3,j+3].status==who)
+        {
+            if(MODE_Tetris)
+                MODE_Tetris_method(board[i,j], board[i-1,j+1], board[i-2,j+2], board[i-3,j+3]);
             return true;
-        
+        }
         return false;
     }
 
@@ -256,18 +259,43 @@ public class Board_Grid
         for(int i=0;i<4;i++)
         {
             cells[i].status = Cell_status.Neutral;
-
+            cells[i].kill_switch = true;
             var k = cells[i].x_pos;
             var j = cells[i].y_pos;
-            if(k<height-1)
+            if(k<height-1 && board[k+1,j].status!=Cell_status.Neutral)
+            {
                 board[k+1,j].status = Cell_status.Neutral;
-            if(k>1)
-                board[k-1,j].status = Cell_status.Neutral;
-            if(j<width-1)
+                board[k+1,j].kill_switch = true;
+            }
+            if(k>1 && board[k-1,j].status != Cell_status.Neutral)
+            {
+                    board[k-1,j].status = Cell_status.Neutral;
+                    board[k-1,j].kill_switch = true;;
+            }
+            if(j<width-1 && board[k,j+1].status != Cell_status.Neutral)
+            {
                 board[k,j+1].status = Cell_status.Neutral;
-            if(j>1)
+                board[k,j+1].kill_switch = true;
+            }
+            if(j>1 && board[k,j-1].status != Cell_status.Neutral)
+            {
                 board[k,j-1].status = Cell_status.Neutral;
+                board[k,j-1].kill_switch = true;
+            }
+                
+        }
 
+        for(int i=0;i<height;i++)
+        {
+            for(int j=0;j<width;j++)
+            {
+                var bot = Find_bottom_of_col(i,j);
+                if( bot!= i )
+                {
+                    board[bot,j].status = board[i,j].status;
+                    board[i,j].status = Cell_status.Neutral;
+                }
+            }
         }
     }
 
@@ -282,5 +310,6 @@ public class Board_Grid
         }
         return 0;
     }
+
 
 }
