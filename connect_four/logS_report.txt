@@ -19,3 +19,4 @@ Ai be kind with us /geojo
 8/8/23 UI polishing , make characters and linked them to sprites /geojo
 9/8/23 self potrait made , discover particles /geojo
 10/8/23 building tetris mode /geojo
+11/8/23 building tetris mode part 2 , place gravity on marks , toggle fun /geojo
