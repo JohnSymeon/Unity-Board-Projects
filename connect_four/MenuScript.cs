@@ -13,7 +13,16 @@ public class MenuScript : MonoBehaviour
     public GameObject Play_CPU;
     public static int MONTE_NUMBER;
     public static bool PVP_mode;
+    public static bool MODE_Tetris;
 
+    public void OnTetrisToggle()
+    {
+        if(MODE_Tetris)
+            MODE_Tetris=false;
+        else
+            MODE_Tetris = true;
+
+    }
     public void Start()
     {
         FindObjectOfType<AudioManager>().Stop("gameplay_theme");
