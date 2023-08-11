@@ -13,19 +13,18 @@ public enum Cell_status{
 };
 
 
-
-
-
 [Serializable]
 public class Cell
 {
+    //public GameObject attached_mark;
     
     [SerializeField] public GameObject cell_obj;
-
+    
     public Cell_status status;
     public int x_pos;
     public int y_pos;
 
+    public bool kill_switch;
     public Cell()
     {
         status = Cell_status.Neutral;
@@ -39,3 +38,4 @@ public class Cell
 
 
 }
+
