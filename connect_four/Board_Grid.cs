@@ -213,11 +213,11 @@ public class Board_Grid
 
     
     //method used to determine victor
-    private bool Check_Four(int i, int j, Cell_status who, Cell[,] board)
+    private bool Check_Four(int i, int j, Cell_status who, Cell[,] test_board)
     {
         //vertical check
         if(i<height-3 &&
-        board[i+1,j].status==who && board[i+2,j].status==who && board[i+3,j].status==who)
+        test_board[i+1,j].status==who && test_board[i+2,j].status==who && test_board[i+3,j].status==who)
         {
             if(MODE_Tetris)
                 MODE_Tetris_method(board[i,j], board[i+1,j], board[i+2,j], board[i+3,j]);
@@ -225,8 +225,8 @@ public class Board_Grid
         }
             
         //horizontal check
-        if(j<width-3 &&
-        board[i,j+1].status==who && board[i,j+2].status==who && board[i,j+3].status==who)
+        if(j<width-3 && 
+        test_board[i,j+1].status==who && test_board[i,j+2].status==who && test_board[i,j+3].status==who)
         {
             if(MODE_Tetris)
                 MODE_Tetris_method(board[i,j], board[i,j+1], board[i,j+2], board[i,j+3]);
@@ -235,7 +235,7 @@ public class Board_Grid
 
         //diagonal check upper
         if(i<height-3 && j<width-3 &&
-        board[i+1,j+1].status==who &&  board[i+2,j+2].status==who && board[i+3,j+3].status==who)
+        test_board[i+1,j+1].status==who &&  test_board[i+2,j+2].status==who && test_board[i+3,j+3].status==who)
         {
             if(MODE_Tetris)
                 MODE_Tetris_method(board[i,j], board[i+1,j+1], board[i+2,j+2], board[i+3,j+3]);
@@ -243,7 +243,7 @@ public class Board_Grid
         }
         //diagonal check lower
         if(i>2 && j<width-3 &&
-        board[i-1,j+1].status==who &&  board[i-2,j+2].status==who && board[i-3,j+3].status==who)
+        test_board[i-1,j+1].status==who &&  test_board[i-2,j+2].status==who && test_board[i-3,j+3].status==who)
         {
             if(MODE_Tetris)
                 MODE_Tetris_method(board[i,j], board[i-1,j+1], board[i-2,j+2], board[i-3,j+3]);
@@ -254,23 +254,26 @@ public class Board_Grid
 
     private void MODE_Tetris_method(Cell c1, Cell c2, Cell c3, Cell c4)
     {
+        Debug.Log("Entered mode tetris method");
         Cell[] cells = {c1,c2,c3,c4};
 
         for(int i=0;i<4;i++)
         {
+            Debug.Log("activate kill switch for loop");
             cells[i].status = Cell_status.Neutral;
             cells[i].kill_switch = true;
             var k = cells[i].x_pos;
             var j = cells[i].y_pos;
             if(k<height-1 && board[k+1,j].status!=Cell_status.Neutral)
             {
+                Debug.Log("activate kill switch");
                 board[k+1,j].status = Cell_status.Neutral;
                 board[k+1,j].kill_switch = true;
             }
             if(k>1 && board[k-1,j].status != Cell_status.Neutral)
             {
                     board[k-1,j].status = Cell_status.Neutral;
-                    board[k-1,j].kill_switch = true;;
+                    board[k-1,j].kill_switch = true;
             }
             if(j<width-1 && board[k,j+1].status != Cell_status.Neutral)
             {
