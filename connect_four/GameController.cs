@@ -10,9 +10,11 @@ using UnityEngine.SceneManagement;
 using TMPro;
 using UnityEngine.UI;
 
+
 public class GameController : MonoBehaviour
 {
     public GameObject cell_object;
+    
     public Board_Grid game_board;
 
     public GameObject player_mark;
@@ -198,23 +200,23 @@ public class GameController : MonoBehaviour
         {
             if(game_board.Check_for_Victory(Cell_status.Computer))
             {
-                UI_turn_image_obj.transform.parent.gameObject.SetActive(false);
-                whos_turn_txt.text="";
+              //  UI_turn_image_obj.transform.parent.gameObject.SetActive(false);
+              //  whos_turn_txt.text="";
                 Debug.Log("Yellow wins");
-                Yellow_won.SetActive(true);
-                Time.timeScale =0;
-                canvas.SetActive(false);
-                FindObjectOfType<AudioManager>().Play("won");
+              //  Yellow_won.SetActive(true);
+               // Time.timeScale =0;
+               // canvas.SetActive(false);
+               // FindObjectOfType<AudioManager>().Play("won");
             }
             else if(game_board.Check_for_Victory(Cell_status.Player))
             {
-                UI_turn_image_obj.transform.parent.gameObject.SetActive(false);
-                whos_turn_txt.text="";
+              //  UI_turn_image_obj.transform.parent.gameObject.SetActive(false);
+              //  whos_turn_txt.text="";
                 Debug.Log("Red wins");
-                Red_won.SetActive(true);
-                Time.timeScale=0;
-                canvas.SetActive(false);
-                FindObjectOfType<AudioManager>().Play("won"); 
+              //  Red_won.SetActive(true);
+               // Time.timeScale=0;
+               // canvas.SetActive(false);
+               // FindObjectOfType<AudioManager>().Play("won"); 
             }
 
         }
@@ -299,4 +301,3 @@ public class GameController : MonoBehaviour
     }
 
 }
-
