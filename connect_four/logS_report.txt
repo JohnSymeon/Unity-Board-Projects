@@ -20,4 +20,5 @@ Ai be kind with us /geojo
 9/8/23 self potrait made , discover particles /geojo
 10/8/23 building tetris mode /geojo
 11/8/23 building tetris mode part 2 , place gravity on marks , toggle fun /geojo
-12/8/23 mode ui done tea mode , ttetris mode part 3  destroy problem /geojo
+13/8/23 mode ui done tea mode , ttetris mode part 3  destroy problem /geojo
+14/8/23 bug fixing ,more bugs arrive, tetris mode part 4 destroy problem 2/2
