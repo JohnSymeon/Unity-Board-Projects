@@ -6,6 +6,7 @@ that it reached its destination.
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using System;
 
 public class Mark : MonoBehaviour
 {
@@ -42,16 +43,16 @@ public class Mark : MonoBehaviour
         if(allow_to_status)
             Update_GC_On_Status();
         Check_Destroy();
-
        // Check_for_Destruction();
     }
 
     void Check_Destroy()
     {
-        if(GC.game_board.board[(int)transform.position.x, (int)transform.position.y].kill_switch)
+        if( transform.position.y<5f && GC.game_board.board[(int)Math.Round(transform.position.y,0), (int)Math.Round(transform.position.x,0)].kill_switch)
         {
-            GC.game_board.board[(int)transform.position.x, (int)transform.position.y].kill_switch = false;
-            Destroy(this);
+            Debug.Log("entered check_destroy");
+            GC.game_board.board[(int)Math.Round(transform.position.y,0), (int)Math.Round(transform.position.x,0)].kill_switch = false;
+            Destroy(gameObject);
         }
     }
 
