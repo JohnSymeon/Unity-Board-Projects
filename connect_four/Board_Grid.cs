@@ -3,6 +3,12 @@
     and an AI that uses the monte carlo method to find the best move by determining which
     play brings the biggest wins to losses ratio.
 */
+using System.Collections;
+using System.Collections.Generic;
+using UnityEngine;
+using System.Linq;
+
+[System.Serializable]
 public class Board_Grid
 {
     private int width;
@@ -295,7 +301,7 @@ public class Board_Grid
                 var bot = Find_bottom_of_col(i,j);
                 if( bot!= i )
                 {
-                    board[bot,j].status = board[i,j].status;
+                    board[bot+1,j].status = board[i,j].status;
                     board[i,j].status = Cell_status.Neutral;
                 }
             }
@@ -304,14 +310,14 @@ public class Board_Grid
 
     public int Find_bottom_of_col(int curr_height, int col)
     {
-        for(int j=curr_height;j>0;j--)
+        for(int j=curr_height;j>-1;j--)
         {
             if(board[j, col].status!=Cell_status.Neutral)
             {
                 return j;
             }
         }
-        return 0;
+        return -1;
     }
 
 
