@@ -171,6 +171,7 @@ public class GameController : MonoBehaviour
 
     private void Check_who_won()
     {
+        game_board.BoardtoWorld();
         UI_turn_image_obj.sprite = p2_or_CPU_sprite;
         if(!MenuScript.PVP_mode)
         {
