@@ -268,15 +268,15 @@ public class Board_Grid
             Debug.Log("activate kill switch for loop");
             cells[i].status = Cell_status.Neutral;
             cells[i].kill_switch = true;
-            var k = cells[i].x_pos;
-            var j = cells[i].y_pos;
+            var j = cells[i].x_pos;
+            var k = cells[i].y_pos;
             if(k<height-1 && board[k+1,j].status!=Cell_status.Neutral)
             {
                 Debug.Log("activate kill switch");
                 board[k+1,j].status = Cell_status.Neutral;
                 board[k+1,j].kill_switch = true;
             }
-            if(k>1 && board[k-1,j].status != Cell_status.Neutral)
+            if(k>0 && board[k-1,j].status != Cell_status.Neutral)
             {
                     board[k-1,j].status = Cell_status.Neutral;
                     board[k-1,j].kill_switch = true;
@@ -286,7 +286,7 @@ public class Board_Grid
                 board[k,j+1].status = Cell_status.Neutral;
                 board[k,j+1].kill_switch = true;
             }
-            if(j>1 && board[k,j-1].status != Cell_status.Neutral)
+            if(j>0 && board[k,j-1].status != Cell_status.Neutral)
             {
                 board[k,j-1].status = Cell_status.Neutral;
                 board[k,j-1].kill_switch = true;
@@ -320,5 +320,65 @@ public class Board_Grid
         return -1;
     }
 
+    TextMesh[,] arr;
+
+    public void BoardtoWorld()
+    {
+        if(arr==null)
+            arr = new TextMesh[height,width];
+        for(int i=0;i<height;i++)
+        {
+            for(int j=0;j<width;j++)
+            {
+                Color color;
+                string text;
+                if(board[i,j].status== Cell_status.Neutral)
+                {
+                    text = "N";
+                    color =Color.white;
+                }
+                    
+                else if(board[i,j].status== Cell_status.Player)
+                {
+                    color = Color.red;
+                    text = "R";
+                }
+                else
+                {
+                    color = Color.yellow;
+                    text = "Y";
+                }
+                    
+                if(arr[i,j]==null)
+                    arr[i,j] = CreateWorldText(text,color, TextAnchor.MiddleCenter, TextAlignment.Center,new Vector3(j,i),100);
+                else
+                {
+                    arr[i,j].text = text;
+                    arr[i,j].color = color;
+                }
+                    
+            }
+        }
+        
+
+       
+    }
+
+    public TextMesh CreateWorldText( string text, Color color, TextAnchor textAnchor, TextAlignment textAlignment,Vector3  localPosition , int sortingOrder,Transform parent = null, int fontSize = 10)
+    {
+        GameObject gameObject = new GameObject("world_text",typeof(TextMesh));
+        Transform transform = gameObject.transform;
+        transform.SetParent(parent,false);
+        transform.localPosition = localPosition;
+        TextMesh textMesh = gameObject.GetComponent<TextMesh>();
+        textMesh.anchor = textAnchor;
+        textMesh.alignment = textAlignment;
+        textMesh.text= text;
+        textMesh.fontSize = fontSize;
+        textMesh.color = color;
+        textMesh.GetComponent<MeshRenderer>().sortingOrder = sortingOrder;
+        return textMesh;
+
+    }
 
 }
