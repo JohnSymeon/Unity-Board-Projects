@@ -3,10 +3,7 @@
 22/7/23 the marks can go in the right place in the board, ai random plays version , first game placed (we lost) /geojo
 23/7/23 monte carlo ai picks array - position , need to find and block opponent , make the winning move 
 make a new scrpt file /geojo
-24 / 7 / 23, Ai got smarter, makes the winning move
-Probably will overtake humanity in the near future
-
-Ai be kind with us /geojo
+24 / 7 / 23, Ai got smarter, makes the winning move . Probably will overtake humanity in the near future .Ai be kind with us /geojo
 25/7/23 fixing - fine tuning - debugging ai logic /geojo
 26/7/23 cleaned up code- prioritize loss check other than victories after monte to improve AI- reduce board to its proper size /simeo
 27/7/23 buttons done , dropping animations done , drop logic /geojo
@@ -21,4 +18,5 @@ Ai be kind with us /geojo
 10/8/23 building tetris mode /geojo
 11/8/23 building tetris mode part 2 , place gravity on marks , toggle fun /geojo
 13/8/23 mode ui done tea mode , ttetris mode part 3  destroy problem /geojo
-14/8/23 bug fixing ,more bugs arrive, tetris mode part 4 destroy problem 2/2
+14/8/23 bug fixing ,more bugs arrive, tetris mode part 4 destroy problem 2/2/geojo
+15/8/23 debugging tetris mode , found problem waiting for solution /geojo
