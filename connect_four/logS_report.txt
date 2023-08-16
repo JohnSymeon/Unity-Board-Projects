@@ -20,3 +20,4 @@ make a new scrpt file /geojo
 13/8/23 mode ui done tea mode , ttetris mode part 3  destroy problem /geojo
 14/8/23 bug fixing ,more bugs arrive, tetris mode part 4 destroy problem 2/2/geojo
 15/8/23 debugging tetris mode , found problem waiting for solution /geojo
+16/8/23 debugging tea mode , fix 15/8 problem , new one arrived /geojo
