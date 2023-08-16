@@ -79,8 +79,14 @@ public class GameController : MonoBehaviour
 
     }
 
-    void Update()
+   void Update()
     {
+        if(!is_dropping)
+        {
+            game_board.Check_for_Victory(Cell_status.Computer);
+            game_board.Check_for_Victory(Cell_status.Player);
+        }
+        
         
         if(who_plays== Cell_status.Player && !is_dropping)
         {
@@ -172,6 +178,7 @@ public class GameController : MonoBehaviour
     private void Check_who_won()
     {
         game_board.BoardtoWorld();
+
         UI_turn_image_obj.sprite = p2_or_CPU_sprite;
         if(!MenuScript.PVP_mode)
         {
@@ -258,7 +265,7 @@ public class GameController : MonoBehaviour
         if(who_plays==Cell_status.Player)
         {
             buttons[col].reachedMax = game_board.Who_Plays_And_Return_If_Full(Cell_status.Player, col);
-            Instantiate(player_mark, new Vector3(game_board.last_played_position.x,game_board.last_played_position.y+8f,0f ) ,transform.rotation);
+            Instantiate(player_mark, new Vector3(game_board.last_played_position.x,7f,0f ) ,transform.rotation);
             Debug.Log("Player 1 played");
             for(int i=0;i<buttons.Length;i++)
             {
@@ -270,7 +277,7 @@ public class GameController : MonoBehaviour
         else
         {
             buttons[col].reachedMax = game_board.Who_Plays_And_Return_If_Full(Cell_status.Computer, col);
-            Instantiate(computer_mark, new Vector3(game_board.last_played_position.x,game_board.last_played_position.y+8f,0f ) ,transform.rotation);
+            Instantiate(computer_mark, new Vector3(game_board.last_played_position.x,7f,0f ) ,transform.rotation);
             Debug.Log("Player 2 played");
             for(int i=0;i<buttons.Length;i++)
             {
@@ -293,7 +300,7 @@ public class GameController : MonoBehaviour
         {
             for(int j=0;j<M;j++)
             {
-                GameObject obj = Instantiate(cell_object, new Vector3((float)game_board.board[i,j].y_pos-Board_Grid.y_offset ,(float)game_board.board[i,j].x_pos-Board_Grid.x_offset ,0 ), transform.rotation);
+                GameObject obj = Instantiate(cell_object, new Vector3((float)game_board.board[i,j].x_pos ,(float)game_board.board[i,j].y_pos ,0 ), transform.rotation);
                 game_board.Set_Object_to_Cell( i , j, obj );
 
             }
