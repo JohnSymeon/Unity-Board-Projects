@@ -29,7 +29,7 @@ public class Mark : MonoBehaviour
         GC = FindObjectOfType<GameController>();
         last_played_pos = new Vector3(transform.position.x,transform.position.y-8f,0f );
 
-        StartCoroutine(Delay(0.5f));
+        StartCoroutine(Delay(0.1f));
     }
 
     // Update is called once per frame
@@ -91,3 +91,4 @@ public class Mark : MonoBehaviour
             GC.is_dropping=true;
     }
 }
+
