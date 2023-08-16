@@ -30,7 +30,7 @@ public class Board_Grid
             for(int j=0;j<board.GetLength(1);j++)
             {
                 board[i,j] = new Cell();
-                board[i,j].SetCoordinate(i,j);
+                board[i,j].SetCoordinate(j,i);
 
             }
         }
@@ -294,23 +294,27 @@ public class Board_Grid
                 
         }
 
-        for(int i=0;i<height;i++)
+
+        for(int i=1;i<height;i++)
         {
             for(int j=0;j<width;j++)
             {
                 var bot = Find_bottom_of_col(i,j);
-                if( bot!= i )
+                if(bot!=i-1)
                 {
                     board[bot+1,j].status = board[i,j].status;
                     board[i,j].status = Cell_status.Neutral;
                 }
+
+                
             }
         }
+        BoardtoWorld();
     }
 
     public int Find_bottom_of_col(int curr_height, int col)
     {
-        for(int j=curr_height;j>-1;j--)
+        for(int j=curr_height-1;j>-1;j--)
         {
             if(board[j, col].status!=Cell_status.Neutral)
             {
@@ -382,3 +386,4 @@ public class Board_Grid
     }
 
 }
+
