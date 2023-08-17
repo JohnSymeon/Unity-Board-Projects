@@ -22,6 +22,8 @@ public class Mark : MonoBehaviour
 
     private bool allow_to_status;
 
+    public GameObject death_effect;
+
     // Start is called before the first frame update
     void Start()
     {
@@ -52,6 +54,7 @@ public class Mark : MonoBehaviour
         {
             Debug.Log("entered check_destroy");
             GC.game_board.board[(int)Math.Round(transform.position.y,0), (int)Math.Round(transform.position.x,0)].kill_switch = false;
+            Instantiate(death_effect,transform.position,transform.rotation);
             Destroy(gameObject);
         }
     }
@@ -91,4 +94,3 @@ public class Mark : MonoBehaviour
             GC.is_dropping=true;
     }
 }
-
