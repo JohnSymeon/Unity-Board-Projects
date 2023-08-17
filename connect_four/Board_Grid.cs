@@ -19,9 +19,13 @@ public class Board_Grid
     public static float y_offset = 0f;
 
     public bool MODE_Tetris;
+    public bool explosion;
+
+    public Cell_status who_won;
 
     public Board_Grid(int height, int width)
     {
+        who_won = Cell_status.Neutral;
         this.width=width;
         this.height = height;
         board = new Cell[height,width];
@@ -262,7 +266,7 @@ public class Board_Grid
     {
         Debug.Log("Entered mode tetris method");
         Cell[] cells = {c1,c2,c3,c4};
-
+        who_won = c1.status;
         for(int i=0;i<4;i++)
         {
             Debug.Log("activate kill switch for loop");
@@ -310,6 +314,7 @@ public class Board_Grid
             }
         }
         BoardtoWorld();
+        explosion = true;
     }
 
     public int Find_bottom_of_col(int curr_height, int col)
@@ -386,4 +391,3 @@ public class Board_Grid
     }
 
 }
-
