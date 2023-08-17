@@ -21,3 +21,4 @@ make a new scrpt file /geojo
 14/8/23 bug fixing ,more bugs arrive, tetris mode part 4 destroy problem 2/2/geojo
 15/8/23 debugging tetris mode , found problem waiting for solution /geojo
 16/8/23 debugging tea mode , fix 15/8 problem , new one arrived /geojo
+17/8/23 kabboms planted , health acquired , now lets do the same for the ai in the next episode /geojo
