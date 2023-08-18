@@ -95,6 +95,7 @@ public class GameController : MonoBehaviour
 
     void Update()
     {
+        game_board.BoardtoWorld();
         if(!is_dropping)
         {
             game_board.Check_for_Victory(Cell_status.Computer);
@@ -115,6 +116,14 @@ public class GameController : MonoBehaviour
             FindObjectOfType<AudioManager>().Play("kaboom"); 
             game_board.explosion = false;
         }
+
+        if(game_board.MODE_Tetris)
+            Mode_Tetris_Check_Who_Won();
+        
+    }
+
+    private void Mode_Tetris_Check_Who_Won()
+    {
         if(game_board.who_won==Cell_status.Player)
         {
             if(computers_HP>1)
@@ -157,7 +166,6 @@ public class GameController : MonoBehaviour
             
         }
 
-
     }
 
     private void SetSprites(int N, bool PVP)
@@ -187,7 +195,8 @@ public class GameController : MonoBehaviour
 
     private void P2_Or_CPU_Is_Playing()
     {
-        Check_who_won();
+        if(!game_board.MODE_Tetris)
+            Check_who_won();
         if(!MenuScript.PVP_mode)
         {   
             if(whos_turn_txt.text!="")
@@ -214,7 +223,8 @@ public class GameController : MonoBehaviour
 
     private void Player_Is_Playing()
     {
-        Check_who_won();
+        if(!game_board.MODE_Tetris)
+            Check_who_won();
         if(!MenuScript.PVP_mode && whos_turn_txt.text!="")
         {
             whos_turn_txt.text = "      Turn!";
@@ -268,23 +278,23 @@ public class GameController : MonoBehaviour
         {
             if(game_board.Check_for_Victory(Cell_status.Computer))
             {
-              //  UI_turn_image_obj.transform.parent.gameObject.SetActive(false);
-              //  whos_turn_txt.text="";
+                UI_turn_image_obj.transform.parent.gameObject.SetActive(false);
+                whos_turn_txt.text="";
                 Debug.Log("Yellow wins");
-              //  Yellow_won.SetActive(true);
-               // Time.timeScale =0;
-               // canvas.SetActive(false);
-               // FindObjectOfType<AudioManager>().Play("won");
+                Yellow_won.SetActive(true);
+                Time.timeScale =0;
+                canvas.SetActive(false);
+                FindObjectOfType<AudioManager>().Play("won");
             }
             else if(game_board.Check_for_Victory(Cell_status.Player))
             {
-              //  UI_turn_image_obj.transform.parent.gameObject.SetActive(false);
-              //  whos_turn_txt.text="";
+                UI_turn_image_obj.transform.parent.gameObject.SetActive(false);
+                whos_turn_txt.text="";
                 Debug.Log("Red wins");
-              //  Red_won.SetActive(true);
-               // Time.timeScale=0;
-               // canvas.SetActive(false);
-               // FindObjectOfType<AudioManager>().Play("won"); 
+                Red_won.SetActive(true);
+                Time.timeScale=0;
+                canvas.SetActive(false);
+                FindObjectOfType<AudioManager>().Play("won"); 
             }
 
         }
