@@ -8,6 +8,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using System.Linq;
 
+
 [System.Serializable]
 public class Board_Grid
 {
@@ -200,7 +201,7 @@ public class Board_Grid
         {
             for(int j=0; j<board.GetLength(1);j++)
             {
-                if(board[i,j].status==who && Check_Four(i,j,who,board))
+                if(board[i,j].status==who && Check_Four(i,j,who,board,false))
                     return true;
             }
         }
@@ -214,7 +215,7 @@ public class Board_Grid
         {
             for(int j=0; j<game_board.GetLength(1);j++)
             {
-                if(game_board[i,j].status==who && Check_Four(i,j,who,game_board))
+                if(game_board[i,j].status==who && Check_Four(i,j,who,game_board,true))
                     return true;
             }
         }
@@ -223,13 +224,13 @@ public class Board_Grid
 
     
     //method used to determine victor
-    private bool Check_Four(int i, int j, Cell_status who, Cell[,] test_board)
+    private bool Check_Four(int i, int j, Cell_status who, Cell[,] test_board, bool isMonte)
     {
         //vertical check
         if(i<height-3 &&
         test_board[i+1,j].status==who && test_board[i+2,j].status==who && test_board[i+3,j].status==who)
         {
-            if(MODE_Tetris)
+            if(MODE_Tetris && !isMonte)
                 MODE_Tetris_method(board[i,j], board[i+1,j], board[i+2,j], board[i+3,j]);
             return true;
         }
@@ -238,7 +239,7 @@ public class Board_Grid
         if(j<width-3 && 
         test_board[i,j+1].status==who && test_board[i,j+2].status==who && test_board[i,j+3].status==who)
         {
-            if(MODE_Tetris)
+            if(MODE_Tetris && !isMonte)
                 MODE_Tetris_method(board[i,j], board[i,j+1], board[i,j+2], board[i,j+3]);
             return true;
         }
@@ -247,7 +248,7 @@ public class Board_Grid
         if(i<height-3 && j<width-3 &&
         test_board[i+1,j+1].status==who &&  test_board[i+2,j+2].status==who && test_board[i+3,j+3].status==who)
         {
-            if(MODE_Tetris)
+            if(MODE_Tetris && !isMonte)
                 MODE_Tetris_method(board[i,j], board[i+1,j+1], board[i+2,j+2], board[i+3,j+3]);
             return true;
         }
@@ -255,7 +256,7 @@ public class Board_Grid
         if(i>2 && j<width-3 &&
         test_board[i-1,j+1].status==who &&  test_board[i-2,j+2].status==who && test_board[i-3,j+3].status==who)
         {
-            if(MODE_Tetris)
+            if(MODE_Tetris && !isMonte)
                 MODE_Tetris_method(board[i,j], board[i-1,j+1], board[i-2,j+2], board[i-3,j+3]);
             return true;
         }
