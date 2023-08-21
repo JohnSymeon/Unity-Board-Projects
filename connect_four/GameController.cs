@@ -111,10 +111,16 @@ public class GameController : MonoBehaviour
             P2_Or_CPU_Is_Playing();
         }
         
-        if(game_board.explosion)
+         if(game_board.explosion)
         {
             FindObjectOfType<AudioManager>().Play("kaboom"); 
             game_board.explosion = false;
+
+            GameObject[] marks = GameObject.FindGameObjectsWithTag("Marks");
+            foreach(var mark in marks)
+            {
+                StartCoroutine(mark.GetComponent<Mark>().Delay(0.001f));
+            }
         }
 
         if(game_board.MODE_Tetris)
