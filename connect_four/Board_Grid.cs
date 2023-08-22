@@ -9,11 +9,10 @@ using UnityEngine;
 using System.Linq;
 
 
-[System.Serializable]
 public class Board_Grid
 {
-    private int width;
-    private int height;
+    public int width;
+    public int height;
     public Cell[,] board;
     public Vector3 last_played_position;
     public static float x_offset = 0f;
@@ -21,8 +20,11 @@ public class Board_Grid
 
     public bool MODE_Tetris;
     public bool explosion;
+    public bool check_for_chain;
 
     public Cell_status who_won;
+
+
 
     public Board_Grid(int height, int width)
     {
@@ -316,6 +318,7 @@ public class Board_Grid
         }
         BoardtoWorld();
         explosion = true;
+        check_for_chain =true;
     }
 
     public int Find_bottom_of_col(int curr_height, int col)
@@ -328,6 +331,132 @@ public class Board_Grid
             }
         }
         return -1;
+    }
+
+    public void Roids(int row, int col)
+    {
+        float probability = Random.Range(0f,2f);
+        if(probability<0.1f)//single cell
+        {
+            if(board[row,col].status!=Cell_status.Neutral)
+            {
+                board[row,col].kill_switch=true;
+                board[row,col].status=Cell_status.Neutral;
+            }
+        }
+        else if(probability<0.2f)//straight cross single
+        {
+            if(board[row,col].status!=Cell_status.Neutral)
+            {
+                board[row,col].kill_switch=true;
+                board[row,col].status=Cell_status.Neutral;
+            }
+            if(row<height-1 && board[row+1,col].status!=Cell_status.Neutral)//up
+            {
+                board[row+1,col].status = Cell_status.Neutral;
+                board[row+1,col].kill_switch = true;
+            }
+            if(row>0 && board[row-1,col].status != Cell_status.Neutral)//down
+            {
+                    board[row-1,col].status = Cell_status.Neutral;
+                    board[row-1,col].kill_switch = true;
+            }
+            if(col<width-1 && board[row,col+1].status != Cell_status.Neutral)//right
+            {
+                board[row,col+1].status = Cell_status.Neutral;
+                board[row,col+1].kill_switch = true;
+            }
+            if(col>0 && board[row,col-1].status != Cell_status.Neutral)//left
+            {
+                board[row,col-1].status = Cell_status.Neutral;
+                board[row,col-1].kill_switch = true;
+            }
+        }
+        else if(probability<0.3f)//skewd cross
+        {
+            if(board[row,col].status!=Cell_status.Neutral)
+            {
+                board[row,col].kill_switch=true;
+                board[row,col].status=Cell_status.Neutral;
+            }
+            if(row<height-1 && col>0 && board[row+1,col-1].status!=Cell_status.Neutral)//top left
+            {
+                board[row+1,col-1].status = Cell_status.Neutral;
+                board[row+1,col-1].kill_switch = true;
+            }
+            if(row<height-1 && col<width-1 && board[row+1,col+1].status!=Cell_status.Neutral)//top right
+            {
+                board[row+1,col+1].status = Cell_status.Neutral;
+                board[row+1,col+1].kill_switch = true;
+            }
+            if(col>0 && row>0 && board[row-1,col-1].status != Cell_status.Neutral)//down left
+            {
+                board[row-1,col-1].status = Cell_status.Neutral;
+                board[row-1,col-1].kill_switch = true;
+            }
+            if(col<width-1 && row>0 && board[row-1,col+1].status != Cell_status.Neutral)//down right
+            {
+                board[row-1,col+1].status = Cell_status.Neutral;
+                board[row-1,col+1].kill_switch = true;
+            }
+        }
+        else if(probability<0.4f)//entire row
+        {
+            for(int i=0;i<width;i++)
+            {
+                if(board[row,i].status!=Cell_status.Neutral)
+                {
+                    board[row,i].kill_switch=true;
+                    board[row,i].status=Cell_status.Neutral;
+                }
+            }
+        }
+        else if(probability<0.5f)//entire column
+        {
+            for(int i=0;i<height;i++)
+            {
+                if(board[i,col].status!=Cell_status.Neutral)
+                {
+                    board[i,col].kill_switch=true;
+                    board[i,col].status=Cell_status.Neutral;
+                }
+            }
+        }
+        else if(probability<0.6f)//huge straight cross
+        {
+            for(int i=0;i<width;i++)
+            {
+                if(board[row,i].status!=Cell_status.Neutral)
+                {
+                    board[row,i].kill_switch=true;
+                    board[row,i].status=Cell_status.Neutral;
+                }
+            }
+            for(int i=0;i<height;i++)
+            {
+                if(board[i,col].status!=Cell_status.Neutral)
+                {
+                    board[i,col].kill_switch=true;
+                    board[i,col].status=Cell_status.Neutral;
+                }
+            }
+        }
+
+        for(int i=1;i<height;i++)
+        {
+            for(int j=0;j<width;j++)
+            {
+                var bot = Find_bottom_of_col(i,j);
+                if(bot!=i-1)
+                {
+                    board[bot+1,j].status = board[i,j].status;
+                    board[i,j].status = Cell_status.Neutral;
+                }    
+            }
+        }
+        BoardtoWorld();
+        explosion = true;
+        check_for_chain =true;
     }
 
     TextMesh[,] arr;
