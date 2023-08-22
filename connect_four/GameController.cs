@@ -57,6 +57,7 @@ public class GameController : MonoBehaviour
     int players_HP=3;
     int computers_HP=3;
 
+
     [Serializable]
     public struct Buttons
     {
@@ -111,7 +112,7 @@ public class GameController : MonoBehaviour
             P2_Or_CPU_Is_Playing();
         }
         
-         if(game_board.explosion)
+        if(game_board.explosion)
         {
             FindObjectOfType<AudioManager>().Play("kaboom"); 
             game_board.explosion = false;
@@ -333,6 +334,7 @@ public class GameController : MonoBehaviour
         Debug.Log("comp plays");
         who_plays = Cell_status.Player;
         CPU_is_thinking = false;
+        game_board.Roids(UnityEngine.Random.Range(0,game_board.height-1),UnityEngine.Random.Range(0,game_board.width-1));
         yield return null;
     }
     //use for player's turn
@@ -363,7 +365,7 @@ public class GameController : MonoBehaviour
             who_plays=Cell_status.Player;
         }
         FindObjectOfType<AudioManager>().Play("player_plays");
-        
+        game_board.Roids(UnityEngine.Random.Range(0,game_board.height-1),UnityEngine.Random.Range(0,game_board.width-1));
     }
 
      //use to initialize the game
