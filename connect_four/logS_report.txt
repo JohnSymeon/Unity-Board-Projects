@@ -24,3 +24,4 @@ make a new scrpt file /geojo
 17/8/23 kabboms planted , health acquired , now lets do the same for the ai in the next episode /geojo
 18/8/23 ai learn to play tea ,  2 wins in a row problem /geojo
 21/8/23  2 wins in a row problem solved ,  may add back - options button on gameplay /geojo
+22/8/23 Roid mode logic generated /geojo
