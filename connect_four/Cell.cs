@@ -1,6 +1,7 @@
 /*
 This is the cell class that comprises the board having a neutral and two occupied states.
 */
+
 using System;
 using System.Collections;
 using System.Collections.Generic;
@@ -11,6 +12,9 @@ public enum Cell_status{
     Player,
     Computer
 };
+
+
+
 
 
 [Serializable]
@@ -25,9 +29,23 @@ public class Cell
     public int y_pos;
 
     public bool kill_switch;
+
+    public bool marked_for_explosion;
+
     public Cell()
     {
         status = Cell_status.Neutral;
+    }
+
+    public void Set_Switch()
+    {
+        if(status != Cell_status.Neutral)
+        {
+            kill_switch = true;
+            status = Cell_status.Neutral;
+        }
+        else
+            marked_for_explosion = true;
     }
 
     public void SetCoordinate(int x_pos, int y_pos)
@@ -38,4 +56,3 @@ public class Cell
 
 
 }
-
