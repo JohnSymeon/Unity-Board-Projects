@@ -2,6 +2,7 @@
     This script essentially acts as the game handler during the actual connect four gameplay scene, 
     initiallizing the board and controlling which player has an active turn.
 */
+
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -57,6 +58,7 @@ public class GameController : MonoBehaviour
     int players_HP=3;
     int computers_HP=3;
 
+    public GameObject explosion_effect;
 
     [Serializable]
     public struct Buttons
@@ -122,11 +124,30 @@ public class GameController : MonoBehaviour
             {
                 StartCoroutine(mark.GetComponent<Mark>().Delay(0.001f));
             }
+
+            for(int i=0;i<game_board.height;i++)
+            {
+                for(int j=0;j<game_board.width;j++)
+                {
+                    if(game_board.board[i,j].marked_for_explosion)
+                    {
+                        Instantiate(explosion_effect,new Vector3((float)j,(float)i,0f), transform.rotation);
+                        game_board.board[i,j].marked_for_explosion = false;
+                    }
+                }
+            }
+
         }
 
         if(game_board.MODE_Tetris)
             Mode_Tetris_Check_Who_Won();
         
+        
+    }
+
+    public void Rest_Roids()
+    {
+        game_board.Roids(UnityEngine.Random.Range(0,game_board.height-1),UnityEngine.Random.Range(0,game_board.width-1));
     }
 
     private void Mode_Tetris_Check_Who_Won()
@@ -334,7 +355,7 @@ public class GameController : MonoBehaviour
         Debug.Log("comp plays");
         who_plays = Cell_status.Player;
         CPU_is_thinking = false;
-        game_board.Roids(UnityEngine.Random.Range(0,game_board.height-1),UnityEngine.Random.Range(0,game_board.width-1));
+        //game_board.Roids(UnityEngine.Random.Range(0,game_board.height-1),UnityEngine.Random.Range(0,game_board.width-1));
         yield return null;
     }
     //use for player's turn
@@ -365,7 +386,7 @@ public class GameController : MonoBehaviour
             who_plays=Cell_status.Player;
         }
         FindObjectOfType<AudioManager>().Play("player_plays");
-        game_board.Roids(UnityEngine.Random.Range(0,game_board.height-1),UnityEngine.Random.Range(0,game_board.width-1));
+        //game_board.Roids(UnityEngine.Random.Range(0,game_board.height-1),UnityEngine.Random.Range(0,game_board.width-1));
     }
 
      //use to initialize the game
