@@ -3,12 +3,13 @@
     and an AI that uses the monte carlo method to find the best move by determining which
     play brings the biggest wins to losses ratio.
 */
+
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using System.Linq;
 
-
+[System.Serializable]
 public class Board_Grid
 {
     public int width;
@@ -335,110 +336,79 @@ public class Board_Grid
 
     public void Roids(int row, int col)
     {
-        float probability = Random.Range(0f,2f);
+        float probability = Random.Range(0f,0.6f);
         if(probability<0.1f)//single cell
         {
-            if(board[row,col].status!=Cell_status.Neutral)
-            {
-                board[row,col].kill_switch=true;
-                board[row,col].status=Cell_status.Neutral;
-            }
+            board[row,col].Set_Switch();
+           // if(board[row,col].status!=Cell_status.Neutral)
+           // {
+           //     board[row,col].kill_switch=true;
+            //    board[row,col].status=Cell_status.Neutral;
+            //}
         }
         else if(probability<0.2f)//straight cross single
         {
-            if(board[row,col].status!=Cell_status.Neutral)
+            board[row,col].Set_Switch();
+            if(row<height-1 )//up
             {
-                board[row,col].kill_switch=true;
-                board[row,col].status=Cell_status.Neutral;
+                board[row+1,col].Set_Switch();
             }
-            if(row<height-1 && board[row+1,col].status!=Cell_status.Neutral)//up
+            if(row>0)//down
             {
-                board[row+1,col].status = Cell_status.Neutral;
-                board[row+1,col].kill_switch = true;
+                board[row-1,col].Set_Switch();
             }
-            if(row>0 && board[row-1,col].status != Cell_status.Neutral)//down
+            if(col<width-1)//right
             {
-                    board[row-1,col].status = Cell_status.Neutral;
-                    board[row-1,col].kill_switch = true;
+                board[row,col+1].Set_Switch();
             }
-            if(col<width-1 && board[row,col+1].status != Cell_status.Neutral)//right
+            if(col>0)//left
             {
-                board[row,col+1].status = Cell_status.Neutral;
-                board[row,col+1].kill_switch = true;
-            }
-            if(col>0 && board[row,col-1].status != Cell_status.Neutral)//left
-            {
-                board[row,col-1].status = Cell_status.Neutral;
-                board[row,col-1].kill_switch = true;
+                board[row,col-1].Set_Switch();
             }
         }
         else if(probability<0.3f)//skewd cross
         {
-            if(board[row,col].status!=Cell_status.Neutral)
+            board[row,col].Set_Switch();
+            if(row<height-1 && col>0)//top left
             {
-                board[row,col].kill_switch=true;
-                board[row,col].status=Cell_status.Neutral;
+                board[row+1,col-1].Set_Switch();
             }
-            if(row<height-1 && col>0 && board[row+1,col-1].status!=Cell_status.Neutral)//top left
+            if(row<height-1 && col<width-1)//top right
             {
-                board[row+1,col-1].status = Cell_status.Neutral;
-                board[row+1,col-1].kill_switch = true;
+                board[row+1,col+1].Set_Switch();
             }
-            if(row<height-1 && col<width-1 && board[row+1,col+1].status!=Cell_status.Neutral)//top right
+            if(col>0 && row>0)//down left
             {
-                board[row+1,col+1].status = Cell_status.Neutral;
-                board[row+1,col+1].kill_switch = true;
+                board[row-1,col-1].Set_Switch();
             }
-            if(col>0 && row>0 && board[row-1,col-1].status != Cell_status.Neutral)//down left
+            if(col<width-1 && row>0)//down right
             {
-                board[row-1,col-1].status = Cell_status.Neutral;
-                board[row-1,col-1].kill_switch = true;
-            }
-            if(col<width-1 && row>0 && board[row-1,col+1].status != Cell_status.Neutral)//down right
-            {
-                board[row-1,col+1].status = Cell_status.Neutral;
-                board[row-1,col+1].kill_switch = true;
+                board[row-1,col+1].Set_Switch();
             }
         }
         else if(probability<0.4f)//entire row
         {
             for(int i=0;i<width;i++)
             {
-                if(board[row,i].status!=Cell_status.Neutral)
-                {
-                    board[row,i].kill_switch=true;
-                    board[row,i].status=Cell_status.Neutral;
-                }
+                board[row,i].Set_Switch();
             }
         }
         else if(probability<0.5f)//entire column
         {
             for(int i=0;i<height;i++)
             {
-                if(board[i,col].status!=Cell_status.Neutral)
-                {
-                    board[i,col].kill_switch=true;
-                    board[i,col].status=Cell_status.Neutral;
-                }
+                board[i,col].Set_Switch();
             }
         }
         else if(probability<0.6f)//huge straight cross
         {
             for(int i=0;i<width;i++)
             {
-                if(board[row,i].status!=Cell_status.Neutral)
-                {
-                    board[row,i].kill_switch=true;
-                    board[row,i].status=Cell_status.Neutral;
-                }
+                board[row,i].Set_Switch();
             }
             for(int i=0;i<height;i++)
             {
-                if(board[i,col].status!=Cell_status.Neutral)
-                {
-                    board[i,col].kill_switch=true;
-                    board[i,col].status=Cell_status.Neutral;
-                }
+                board[i,col].Set_Switch();
             }
         }
 
