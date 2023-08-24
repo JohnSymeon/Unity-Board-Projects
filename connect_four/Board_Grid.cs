@@ -20,6 +20,7 @@ public class Board_Grid
     public static float y_offset = 0f;
 
     public bool MODE_Tetris;
+    public bool MODE_Roids;
     public bool explosion;
     public bool check_for_chain;
 
