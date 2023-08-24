@@ -1,6 +1,7 @@
 /*
 This script controlls the main menu button functions.
 */
+
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -15,7 +16,7 @@ public class MenuScript : MonoBehaviour
     public static int MONTE_NUMBER;
     public static bool PVP_mode;
     public static bool MODE_Tetris;
-
+    public static bool MODE_Roids;
 
     public void OnTetrisToggle()
     {
@@ -25,6 +26,15 @@ public class MenuScript : MonoBehaviour
         else
             MODE_Tetris = true;
 
+    }
+
+    public void OnRoidsToggle()
+    {
+        FindObjectOfType<AudioManager>().Play("UI_button");
+        if(MODE_Roids)
+            MODE_Roids=false;
+        else
+            MODE_Roids = true;
     }
 
     public void Start()
@@ -75,4 +85,3 @@ public class MenuScript : MonoBehaviour
         FindObjectOfType<AudioManager>().Play("gameplay_theme");
     }
 }
-
