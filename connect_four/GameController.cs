@@ -3,14 +3,6 @@
     initiallizing the board and controlling which player has an active turn.
 */
 
-using System.Collections;
-using System.Collections.Generic;
-using UnityEngine;
-using System;
-using UnityEngine.SceneManagement;
-using TMPro;
-using UnityEngine.UI;
-
 public class GameController : MonoBehaviour
 {
     public GameObject cell_object;
@@ -60,6 +52,8 @@ public class GameController : MonoBehaviour
 
     public GameObject explosion_effect;
 
+    bool allow_play_coroutine = true;
+
     [Serializable]
     public struct Buttons
     {
@@ -105,13 +99,14 @@ public class GameController : MonoBehaviour
             game_board.Check_for_Victory(Cell_status.Player);
         }
                
-        if(who_plays== Cell_status.Player && !is_dropping)
+        if(who_plays== Cell_status.Player && !is_dropping && allow_play_coroutine)
         {
-            Player_Is_Playing();
+            StartCoroutine(Wait_for_asteroid(who_plays));
+            //Player_Is_Playing();
         }
-        else if(who_plays== Cell_status.Computer && !is_dropping && !CPU_is_thinking)
+        else if(who_plays== Cell_status.Computer && !is_dropping && !CPU_is_thinking && allow_play_coroutine)
         {
-            P2_Or_CPU_Is_Playing();
+            StartCoroutine(Wait_for_asteroid(who_plays));
         }
         
         if(game_board.explosion)
@@ -143,6 +138,24 @@ public class GameController : MonoBehaviour
             Mode_Tetris_Check_Who_Won();
         
         
+    }
+
+    IEnumerator Wait_for_asteroid(Cell_status who)
+    {
+        allow_play_coroutine=false;
+        float prob = UnityEngine.Random.Range(0f,1f);
+        if(game_board.MODE_Roids && (prob>0.8f))
+        {
+            yield return new WaitForSeconds(1f);
+            game_board.Roids(UnityEngine.Random.Range(0,game_board.height-1),UnityEngine.Random.Range(0,game_board.width-1));
+            yield return new WaitForSeconds(0.3f);
+        }
+        if(who==Cell_status.Player)
+            Player_Is_Playing();
+        else
+            P2_Or_CPU_Is_Playing();
+        allow_play_coroutine = true;
+        yield return null;
     }
 
     public void Rest_Roids()
@@ -394,6 +407,7 @@ public class GameController : MonoBehaviour
     {
         game_board = new Board_Grid(N,M);
         game_board.MODE_Tetris = MenuScript.MODE_Tetris;
+        game_board.MODE_Roids = MenuScript.MODE_Roids;
         
         for(int i =0;i<N;i++)
         {
