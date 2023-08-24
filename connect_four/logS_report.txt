@@ -26,3 +26,4 @@ make a new scrpt file /geojo
 21/8/23  2 wins in a row problem solved ,  may add back - options button on gameplay /geojo
 22/8/23 Roid mode logic generated /geojo
 23/8/23 Roid mode logic perfected /geojo
+24/8/23 Roid moid implimated on gameplay , Ui changes , new "Feature" appears /geojo
