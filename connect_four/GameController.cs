@@ -2,6 +2,13 @@
     This script essentially acts as the game handler during the actual connect four gameplay scene, 
     initiallizing the board and controlling which player has an active turn.
 */
+using System.Collections;
+using System.Collections.Generic;
+using UnityEngine;
+using System;
+using UnityEngine.SceneManagement;
+using TMPro;
+using UnityEngine.UI;
 
 public class GameController : MonoBehaviour
 {
@@ -26,6 +33,9 @@ public class GameController : MonoBehaviour
     public GameObject player_won;
     public GameObject Red_won;
     public GameObject Yellow_won;
+    public GameObject pause;
+
+    public GameObject pause_button;
 
     public TMP_Text whos_turn_txt;
 
@@ -154,7 +164,7 @@ public class GameController : MonoBehaviour
             Player_Is_Playing();
         else
             P2_Or_CPU_Is_Playing();
-        allow_play_coroutine = true;
+        
         yield return null;
     }
 
@@ -342,6 +352,23 @@ public class GameController : MonoBehaviour
 
 
     }
+    public void Pause_game()
+    {
+        pause.SetActive(true);
+        Time.timeScale=0;
+        canvas.SetActive(false);
+        pause_button.SetActive(false);
+        FindObjectOfType<AudioManager>().Play("pause");
+    }
+
+    public void Continue_game()
+    {
+        pause.SetActive(false);
+        Time.timeScale=1;
+        canvas.SetActive(true);
+        pause_button.SetActive(true);
+        FindObjectOfType<AudioManager>().Play("pause");
+    }
 
     public void Restart_Game()
     {
@@ -363,11 +390,12 @@ public class GameController : MonoBehaviour
         is_dropping = true;
         game_board.AI_Plays(Cell_status.Computer, MenuScript.MONTE_NUMBER);
         yield return new WaitForSeconds(MenuScript.MONTE_NUMBER/10000f);
-        Instantiate(computer_mark, new Vector3(game_board.last_played_position.x,game_board.last_played_position.y+8f,0f ) ,transform.rotation);
+        Instantiate(computer_mark, new Vector3(game_board.last_played_position.x,7f,0f ) ,transform.rotation);
         FindObjectOfType<AudioManager>().Play("cpu_plays"); 
         Debug.Log("comp plays");
         who_plays = Cell_status.Player;
         CPU_is_thinking = false;
+        allow_play_coroutine = true;
         //game_board.Roids(UnityEngine.Random.Range(0,game_board.height-1),UnityEngine.Random.Range(0,game_board.width-1));
         yield return null;
     }
@@ -399,6 +427,7 @@ public class GameController : MonoBehaviour
             who_plays=Cell_status.Player;
         }
         FindObjectOfType<AudioManager>().Play("player_plays");
+        allow_play_coroutine = true;
         //game_board.Roids(UnityEngine.Random.Range(0,game_board.height-1),UnityEngine.Random.Range(0,game_board.width-1));
     }
 
