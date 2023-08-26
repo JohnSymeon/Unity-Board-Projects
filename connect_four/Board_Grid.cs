@@ -52,7 +52,8 @@ public class Board_Grid
             if(board[i,col].status==Cell_status.Neutral)
             {
                 board[i,col].status = who;
-                last_played_position = board[i,col].cell_obj.transform.position;
+                //last_played_position = board[i,col].cell_obj.transform.position;
+                last_played_position = new Vector3((float)col,(float)i,0f);
 
                 if(i==height-1)
                     return true;
@@ -113,14 +114,19 @@ public class Board_Grid
                 comp_played[i] = -1;
 
             bool exited = false;
+            var rand = new System.Random();
             foreach(int i in arr1)
             {
                 foreach(int j in arr2)
                 {
                     if(board_monte[height-1,j].status==Cell_status.Neutral)
                     {
-                        if(Random.Range(0f,1f)>=0.5f)
+                        
+                        //Debug.Log((float)rand.NextDouble());
+                        //if(UnityEngine.Random.Range(0f,1f)>=0.5f)
+                        if(((float)rand.NextDouble())>0.5f)
                         {
+                            
                             Who_Plays_And_Return_If_Full(who,j,board_monte);
                             if(Check_for_Victory(who, board_monte))
                             {
