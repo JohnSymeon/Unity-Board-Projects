@@ -28,3 +28,4 @@ make a new scrpt file /geojo
 23/8/23 Roid mode logic perfected /geojo
 24/8/23 Roid moid implimated on gameplay , Ui changes , new "Feature" appears /geojo
 25/8/23 The Feature is lost, pause resume on game , new Feature emerged . Change icons menu to be installed , better hp bar done.
+26/8/23 thrending problems , ai got dummier , fix the intelligent issue ? /geojo
