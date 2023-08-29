@@ -239,6 +239,8 @@ public class GameController : MonoBehaviour
                 p2_or_CPU_sprite = enemy_sprites[2];
             else if(N==10000)
                 p2_or_CPU_sprite = enemy_sprites[3];
+            else if(N==100000)
+                p2_or_CPU_sprite = enemy_sprites[4];
         }
 
         player_portrait.sprite = player_sprite;
