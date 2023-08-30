@@ -67,6 +67,12 @@ public class GameController : MonoBehaviour
 
     bool allow_play_coroutine = true;
 
+    Vector3 original_pos_player;
+    Vector3 original_pos_enemy;
+
+    bool shake_player;
+    bool shake_enemy;
+
     [Serializable]
     public struct Buttons
     {
@@ -101,6 +107,9 @@ public class GameController : MonoBehaviour
             players_health.SetActive(false);
             computers_health.SetActive(false);
         }
+
+        original_pos_player = player_portrait.transform.position;
+        original_pos_enemy = enemy_portrait.transform.position;
     }
 
     void Update()
@@ -150,14 +159,40 @@ public class GameController : MonoBehaviour
         if(game_board.MODE_Tetris)
             Mode_Tetris_Check_Who_Won();
         
+        if(shake_player)
+            Hurt_Shake(player_portrait.gameObject);
+        else if(shake_enemy)
+            Hurt_Shake(enemy_portrait.gameObject);
         
     }
+
+    IEnumerator Allow_Shake(GameObject go)
+    {
+        if(go == player_portrait.gameObject)
+            shake_player = true;
+        else
+            shake_enemy = true;
+        yield return new WaitForSeconds(0.5f);
+        shake_player = false;
+        shake_enemy = false;
+    }
+
+    void Hurt_Shake(GameObject go)
+    {
+        Vector3 v3 = UnityEngine.Random.insideUnitCircle * (Time.deltaTime * 1000f);
+        if(go==player_portrait.gameObject)
+            go.transform.position= original_pos_player + v3;
+        else
+            go.transform.position= original_pos_enemy + v3;
+    }
+
+
 
     IEnumerator Wait_for_asteroid(Cell_status who)
     {
         allow_play_coroutine=false;
         float prob = UnityEngine.Random.Range(0f,1f);
-        if(game_board.MODE_Roids && (prob>0.8f))
+        if(game_board.MODE_Roids && (prob<0.08f))
         {
             yield return new WaitForSeconds(1f);
             game_board.Roids(UnityEngine.Random.Range(0,game_board.height-1),UnityEngine.Random.Range(0,game_board.width-1));
@@ -184,6 +219,7 @@ public class GameController : MonoBehaviour
             {
                 Destroy(computers_health.transform.GetChild(0).gameObject);
                 computers_HP--;
+                StartCoroutine(Allow_Shake(enemy_portrait.gameObject));
             }
             else
             {
@@ -204,6 +240,7 @@ public class GameController : MonoBehaviour
             {
                 Destroy(players_health.transform.GetChild(0).gameObject);
                 players_HP--;
+                StartCoroutine(Allow_Shake(player_portrait.gameObject));
             }
             else
             {
