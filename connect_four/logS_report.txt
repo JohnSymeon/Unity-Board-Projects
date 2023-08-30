@@ -30,3 +30,4 @@ make a new scrpt file /geojo
 25/8/23 The Feature is lost, pause resume on game , new Feature emerged . Change icons menu to be installed , better hp bar done.
 26/8/23 thrending problems , ai got dummier , fix the intelligent issue ? /geojo
 29/8/23 Based Boss entered the game , made to list for upcoming changes (polish comets mode ,hurt effects on TEA mode ,Tweak probabilities for comets, chnage gradients for difficulties , add customizable avatar, adjust particle effects to difficulties , change sounds and music, maybe custimze it save changes) / geojo & (simeo)
+30/8/23 probs of comet tweaked , gradients done amd shaking when hurt in te  mode /geojo
