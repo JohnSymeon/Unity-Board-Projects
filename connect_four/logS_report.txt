@@ -3,7 +3,7 @@
 22/7/23 the marks can go in the right place in the board, ai random plays version , first game placed (we lost) /geojo
 23/7/23 monte carlo ai picks array - position , need to find and block opponent , make the winning move 
 make a new scrpt file /geojo
-24 / 7 / 23, Ai got smarter, makes the winning move . Probably will overtake humanity in the near future .Ai be kind with us /geojo
+24/7/23, Ai got smarter, makes the winning move . Probably will overtake humanity in the near future .Ai be kind with us /geojo
 25/7/23 fixing - fine tuning - debugging ai logic /geojo
 26/7/23 cleaned up code- prioritize loss check other than victories after monte to improve AI- reduce board to its proper size /simeo
 27/7/23 buttons done , dropping animations done , drop logic /geojo
@@ -31,3 +31,4 @@ make a new scrpt file /geojo
 26/8/23 thrending problems , ai got dummier , fix the intelligent issue ? /geojo
 29/8/23 Based Boss entered the game , made to list for upcoming changes (polish comets mode ,hurt effects on TEA mode ,Tweak probabilities for comets, chnage gradients for difficulties , add customizable avatar, adjust particle effects to difficulties , change sounds and music, maybe custimze it save changes) / geojo & (simeo)
 30/8/23 probs of comet tweaked , gradients done amd shaking when hurt in te  mode /geojo
+31/8/23 Ui plays with light and dark and red when hurt/ geojo
