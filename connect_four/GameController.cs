@@ -73,6 +73,10 @@ public class GameController : MonoBehaviour
     bool shake_player;
     bool shake_enemy;
 
+
+    public GameObject[] UI_player;
+    public GameObject[] UI_computer;
+
     [Serializable]
     public struct Buttons
     {
@@ -166,13 +170,68 @@ public class GameController : MonoBehaviour
         
     }
 
+    void UI_Illuminate_Portrait(Cell_status who)
+    {
+        GameObject[] UI_player_array;
+        UI_player_array = new GameObject[20];
+        int k=0;
+        foreach(var element in UI_player)
+        {
+            foreach(Transform trans in element.transform)
+            {
+                UI_player_array[k] = trans.gameObject;
+                k++;
+            }
+        }
+        UI_player_array[k] = UI_player[0];
+        Array.Resize( ref UI_player_array, k+1);
+        GameObject[] UI_computer_array;
+        UI_computer_array = new GameObject[20];
+        k=0;
+        foreach(var element in UI_computer)
+        {
+            foreach(Transform trans in element.transform)
+            {
+                UI_computer_array[k] = trans.gameObject;
+                k++;
+            }
+        }
+        UI_computer_array[k] = UI_computer[0];
+        Array.Resize( ref UI_computer_array, k+1);
+
+        if(who==Cell_status.Player)
+        {
+            foreach(var elem in UI_computer_array)
+            {
+                elem.GetComponent<Image>().color = new Color32(135,135,135,255);
+            }
+            foreach(var elem in UI_player_array)
+            {
+                elem.GetComponent<Image>().color = new Color32(255,255,255,255);
+            }
+        }
+        else
+        {
+            foreach(var elem in UI_player_array)
+            {
+                elem.GetComponent<Image>().color = new Color32(135,135,135,255);
+            }
+            foreach(var elem in UI_computer_array)
+            {
+                elem.GetComponent<Image>().color = new Color32(255,255,255,255);
+            }
+        }
+    }
+
     IEnumerator Allow_Shake(GameObject go)
     {
+        go.GetComponent<Image>().color = new Color32(255,50,50,255);
         if(go == player_portrait.gameObject)
             shake_player = true;
         else
             shake_enemy = true;
         yield return new WaitForSeconds(0.5f);
+        go.GetComponent<Image>().color = new Color32(255,255,255,255);
         shake_player = false;
         shake_enemy = false;
     }
@@ -184,6 +243,7 @@ public class GameController : MonoBehaviour
             go.transform.position= original_pos_player + v3;
         else
             go.transform.position= original_pos_enemy + v3;
+        
     }
 
 
@@ -288,6 +348,7 @@ public class GameController : MonoBehaviour
 
     private void P2_Or_CPU_Is_Playing()
     {
+        UI_Illuminate_Portrait(Cell_status.Computer);
         if(!game_board.MODE_Tetris)
             Check_who_won();
         if(!MenuScript.PVP_mode)
@@ -317,6 +378,9 @@ public class GameController : MonoBehaviour
 
     private void Player_Is_Playing()
     {
+        
+        UI_Illuminate_Portrait(Cell_status.Player);
+
         if(!game_board.MODE_Tetris)
             Check_who_won();
         if(!MenuScript.PVP_mode && whos_turn_txt.text!="")
