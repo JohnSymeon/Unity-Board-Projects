@@ -252,10 +252,15 @@ public class GameController : MonoBehaviour
     {
         allow_play_coroutine=false;
         float prob = UnityEngine.Random.Range(0f,1f);
-        if(game_board.MODE_Roids && (prob<0.08f))
+        if(game_board.MODE_Roids && (prob>0.08f))
         {
+            int x = UnityEngine.Random.Range(0,game_board.height-1);
+            int y = UnityEngine.Random.Range(0,game_board.width-1);
+
+            GetComponent<BG_handler>().Spawn_Roid(y, x);
+
             yield return new WaitForSeconds(1f);
-            game_board.Roids(UnityEngine.Random.Range(0,game_board.height-1),UnityEngine.Random.Range(0,game_board.width-1));
+            game_board.Roids(x,y);
             yield return new WaitForSeconds(0.3f);
         }
         if(who==Cell_status.Player)
