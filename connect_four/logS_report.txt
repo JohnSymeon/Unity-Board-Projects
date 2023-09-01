@@ -32,3 +32,4 @@ make a new scrpt file /geojo
 29/8/23 Based Boss entered the game , made to list for upcoming changes (polish comets mode ,hurt effects on TEA mode ,Tweak probabilities for comets, chnage gradients for difficulties , add customizable avatar, adjust particle effects to difficulties , change sounds and music, maybe custimze it save changes) / geojo & (simeo)
 30/8/23 probs of comet tweaked , gradients done amd shaking when hurt in te  mode /geojo
 31/8/23 Ui plays with light and dark and red when hurt/ geojo
+1/9/23 asteroids fall in the board on roid mode /geojo
