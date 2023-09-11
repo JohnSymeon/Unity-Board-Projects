@@ -343,7 +343,7 @@ public class Board_Grid
 
     public void Roids(int row, int col)
     {
-        float probability = Random.Range(0f,0.6f);
+        float probability = Random.Range(0f,2.5f);
         if(probability<0.1f)//single cell
         {
             board[row,col].Set_Switch();
