@@ -49,7 +49,7 @@ public class BG_handler : MonoBehaviour
         }
         else
         {
-            x_spawn = -2f;
+            x_spawn = -6f;
             y_spawn =  Random.Range(-2f,7.5f);
         }
 
