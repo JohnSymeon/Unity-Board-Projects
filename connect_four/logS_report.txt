@@ -33,3 +33,5 @@ make a new scrpt file /geojo
 30/8/23 probs of comet tweaked , gradients done amd shaking when hurt in te  mode /geojo
 31/8/23 Ui plays with light and dark and red when hurt/ geojo
 1/9/23 asteroids fall in the board on roid mode /geojo
+11/9/23 final bugs , trying to find the android tpk
+12/9/23 mobile run and ready to ship
