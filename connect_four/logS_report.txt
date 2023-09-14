@@ -36,3 +36,4 @@ make a new scrpt file /geojo
 11/9/23 final bugs , trying to find the android tpk
 12/9/23 mobile run and ready to shi
 13/9/23 at least the icon is good, must close pvp mode when exit
+14/9/23 gooogle store uploading troubles
