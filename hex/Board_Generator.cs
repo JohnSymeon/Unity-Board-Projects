@@ -2,128 +2,63 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-
-public struct Face
-{
-    public List<Vector3> vertices{get;set;}
-    public List<int> triangles{get;set;}
-    public List<Vector2> uvs{get;set;}
-
-    public Face(List<Vector3> vertices,List<int> triangles,List<Vector2> uvs)
-    {
-        this.vertices = vertices;
-        this.triangles = triangles;
-        this.uvs = uvs;
-    }
-}
-
-
-[RequireComponent(typeof(MeshFilter))]
-[RequireComponent(typeof(MeshRenderer))]
 public class Board_Generator : MonoBehaviour
 {
 
-    private Mesh m_mesh;
-    private MeshFilter m_meshFilter;
-    private MeshRenderer m_meshRenderer;
+    public GameObject hex_tile_prefab;
 
-    private List<Face> m_faces;
+    public int size;
 
-    public Material material;
+    public Tile[,] board;
 
-    void Awake()
-    {
-        m_meshFilter = GetComponent<MeshFilter>();
-        m_meshRenderer = GetComponent<MeshRenderer>();
-
-        m_mesh = new Mesh();
-        m_mesh.name = "Hex";
-
-        m_meshFilter.mesh = m_mesh;
-        m_meshRenderer.material = material;
-    }
-
-    public void CombineFaces()
-    {
-        List<Vector3> vertices = new List<Vector3>();
-        List<int> tris = new List<int>();
-        List<Vector2> uvs = new List<Vector2>();
-
-        for(int i=0;i<m_faces.Count;i++)
-        {
-            vertices.AddRange(m_faces[i].vertices);
-            uvs.AddRange(m_faces[i].uvs);
-
-            int offset = 4*i;
-            foreach(int triangle in m_faces[i].triangles)
-            {
-                tris.Add(triangle + offset);
-            }
-        }
-
-        m_mesh.vertices = vertices.ToArray();
-        m_mesh.triangles = tris.ToArray();
-        m_mesh.uv = uvs.ToArray();
-        m_mesh.RecalculateNormals();
-    }
-
-    private Vector3 GetPoint(float size,float height,int index)
-    {
-        float angle_deg = 60* index;
-        float angle_rad = Mathf.PI / 180f * angle_deg;
-        return new Vector3((size*Mathf.Cos(angle_rad)), height,size * Mathf.Sin(angle_rad));
-    }
-
-    private Face CreateFace(float innerRad, float outerRad, float heightA, float heightB,int point,bool reverse = false)
-    {
-        Vector3 pointA = GetPoint(innerRad,heightB,point);
-        Vector3 pointB = GetPoint(innerRad, heightB, (point<5)?point+1:0);
-        Vector3 pointC = GetPoint(outerRad,heightA, (point<5)?point+1:0);
-        Vector3 pointD = GetPoint(outerRad,heightA,point);
-
-        List<Vector3> vertices = new List<Vector3>(){pointA, pointB,pointC, pointD};
-        List<int> triangles = new List<int>(){0,1,2,2,3,0};
-        List<Vector2> uvs = new List<Vector2>(){new Vector2(0,0),new Vector2(1,0),new Vector2(1,1),new Vector2(0,1)};
-        if(reverse)
-        {
-            vertices.Reverse();
-        }
-    
-        return new Face(vertices,triangles,uvs);
-    }
-    public float innerSize = 0.45f;
-    public float outerSize = 0.5f;
-    public float height = 0f;
-
-    public void DrawFaces()
-    {
-        m_faces = new List<Face>();
-
-        for(int point =0; point<6; point++)
-        {
-            m_faces.Add(CreateFace(innerSize,outerSize,height/2f,height/2f,point));
-        }
-
-    }
-
-    public void DrawMesh()
-    {
-        DrawFaces();
-        CombineFaces();
-    }
-
-
-
+    public bool[,] connections_matrix;
 
     // Start is called before the first frame update
     void Start()
     {
+        board = new Tile[size,size];
+        float j_offset=0f;
+        float i_offset = 0f;
+        for(int i=0;i<size;i++)
+        {
+            for(int j=0;j<size;j++)
+            {
+                GameObject o = Instantiate(hex_tile_prefab,new Vector3(j-j_offset,i - i_offset,0),transform.rotation, gameObject.transform);
+                o.transform.parent = gameObject.transform;
+                board[i,j] = new Tile(i*size+j,o);
+            }
+            j_offset += 0.5f;
+            i_offset += 0.11f;
+        }
+
+        connections_matrix = new bool[size*size, size*size];
+
+
+        transform.position = new Vector3(3.86f,1.77f,0f);
+        transform.localScale = new Vector3(0.7f,0.7f,0.7f);
         
+    }
+
+    void Initialise_CM()
+    {
+        for(int i=0;i<size;i++)
+        {
+            for(int j=0;j<size;j++)
+            {
+                //upper left corner
+                if( i==0 && j==0)
+                {
+                    connections_matrix[board[i,j].id, i*size+j+1] = true;
+                    connections_matrix[board[i,j].id, (i+1)*size+j] = true;
+                }
+
+            }
+        }
     }
 
     // Update is called once per frame
     void Update()
     {
-        DrawMesh();
+        
     }
 }
