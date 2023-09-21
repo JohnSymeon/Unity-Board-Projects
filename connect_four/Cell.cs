@@ -1,7 +1,3 @@
-/*
-This is the cell class that comprises the board having a neutral and two occupied states.
-*/
-
 using System;
 using System.Collections;
 using System.Collections.Generic;

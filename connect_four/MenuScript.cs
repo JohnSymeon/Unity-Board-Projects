@@ -1,7 +1,3 @@
-/*
-This script controlls the main menu button functions.
-*/
-
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -39,7 +35,13 @@ public class MenuScript : MonoBehaviour
 
     public void Start()
     {
+        MONTE_NUMBER =0;
+        PVP_mode = false;
+        MODE_Tetris = false;
+        MODE_Roids = false;
         FindObjectOfType<AudioManager>().Stop("gameplay_theme");
+        FindObjectOfType<AudioManager>().Stop("lost");
+        FindObjectOfType<AudioManager>().Stop("won");
         FindObjectOfType<AudioManager>().Play("menu_theme");
     }
 

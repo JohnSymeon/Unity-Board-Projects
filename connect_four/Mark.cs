@@ -1,8 +1,3 @@
-/*
-This script is used by each Mark when it is played, moving smoothly and updating the GameController
-that it reached its destination.
-*/
-
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -31,7 +26,7 @@ public class Mark : MonoBehaviour
         GC = FindObjectOfType<GameController>();
         last_played_pos = new Vector3(transform.position.x,transform.position.y-8f,0f );
 
-        StartCoroutine(Delay(0.1f));
+        StartCoroutine(Delay(0.001f));
     }
 
     // Update is called once per frame
@@ -76,7 +71,7 @@ public class Mark : MonoBehaviour
         
     }
 
-    IEnumerator Delay(float delay)
+    public IEnumerator Delay(float delay)
     {
         yield return new WaitForSeconds(delay);
         allow_to_status = true;

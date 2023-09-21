@@ -118,6 +118,12 @@ public class GameController : MonoBehaviour
 
     void Update()
     {
+        /*INSERT FIX AFTER EXPLOSION FOR BUTTONS HERE*/
+        for(int i=0;i<buttons.Length;i++)
+        {
+            buttons[i].reachedMax = game_board.Check_For_Full_Column(i);
+        }
+
         game_board.BoardtoWorld();
         if(!is_dropping)
         {
@@ -252,7 +258,7 @@ public class GameController : MonoBehaviour
     {
         allow_play_coroutine=false;
         float prob = UnityEngine.Random.Range(0f,1f);
-        if(game_board.MODE_Roids && (prob>0.08f))
+        if(game_board.MODE_Roids && (prob<0.08f))
         {
             int x = UnityEngine.Random.Range(0,game_board.height-1);
             int y = UnityEngine.Random.Range(0,game_board.width-1);
@@ -295,7 +301,8 @@ public class GameController : MonoBehaviour
                 Red_won.SetActive(true);
                 Time.timeScale=0;
                 canvas.SetActive(false);
-                FindObjectOfType<AudioManager>().Play("won"); 
+                FindObjectOfType<AudioManager>().Play("won");
+                FindObjectOfType<AudioManager>().Stop("gameplay_theme");
             }
             game_board.who_won = Cell_status.Neutral;
         }
@@ -316,7 +323,8 @@ public class GameController : MonoBehaviour
                 Yellow_won.SetActive(true);
                 Time.timeScale=0;
                 canvas.SetActive(false);
-                FindObjectOfType<AudioManager>().Play("won"); 
+                FindObjectOfType<AudioManager>().Play("won");
+                FindObjectOfType<AudioManager>().Stop("gameplay_theme");
             }
             game_board.who_won = Cell_status.Neutral;
             
@@ -424,6 +432,7 @@ public class GameController : MonoBehaviour
                 Time.timeScale =0;
                 canvas.SetActive(false);
                 FindObjectOfType<AudioManager>().Play("lost");
+                FindObjectOfType<AudioManager>().Stop("gameplay_theme");
                 
             }
             else if(game_board.Check_for_Victory(Cell_status.Player))
@@ -435,6 +444,7 @@ public class GameController : MonoBehaviour
                 Time.timeScale=0;
                 canvas.SetActive(false);
                 FindObjectOfType<AudioManager>().Play("won");
+                FindObjectOfType<AudioManager>().Stop("gameplay_theme");
             }
         }
         else
@@ -448,6 +458,7 @@ public class GameController : MonoBehaviour
                 Time.timeScale =0;
                 canvas.SetActive(false);
                 FindObjectOfType<AudioManager>().Play("won");
+                FindObjectOfType<AudioManager>().Stop("gameplay_theme");
             }
             else if(game_board.Check_for_Victory(Cell_status.Player))
             {
@@ -457,7 +468,8 @@ public class GameController : MonoBehaviour
                 Red_won.SetActive(true);
                 Time.timeScale=0;
                 canvas.SetActive(false);
-                FindObjectOfType<AudioManager>().Play("won"); 
+                FindObjectOfType<AudioManager>().Play("won");
+                FindObjectOfType<AudioManager>().Stop("gameplay_theme");
             }
 
         }
@@ -484,6 +496,9 @@ public class GameController : MonoBehaviour
 
     public void Restart_Game()
     {
+        FindObjectOfType<AudioManager>().Play("gameplay_theme");
+        FindObjectOfType<AudioManager>().Stop("won");
+        FindObjectOfType<AudioManager>().Stop("lost");
         FindObjectOfType<AudioManager>().Play("UI_button");
         Time.timeScale =1;
         SceneManager.LoadScene(1);

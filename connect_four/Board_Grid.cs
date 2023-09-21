@@ -44,6 +44,18 @@ public class Board_Grid
             }
         }
     }
+
+    public bool Check_For_Full_Column(int col)
+    {
+        for(int i=0;i<height;i++)
+        {
+            if(board[i,col].status== Cell_status.Neutral)
+                return false;
+        }
+        return true;
+    }
+
+
     //Used by player to play a tile
     public bool Who_Plays_And_Return_If_Full(Cell_status who, int col)
     {
@@ -343,7 +355,7 @@ public class Board_Grid
 
     public void Roids(int row, int col)
     {
-        float probability = Random.Range(0f,2.5f);
+        float probability = Random.Range(0f,0.6f);
         if(probability<0.1f)//single cell
         {
             board[row,col].Set_Switch();
@@ -439,6 +451,13 @@ public class Board_Grid
     TextMesh[,] arr;
 
     public void BoardtoWorld()
+    {
+        //debug
+        //test_BoardtoWorld();
+        //debug
+    }
+
+    public void test_BoardtoWorld()
     {
         if(arr==null)
             arr = new TextMesh[height,width];
