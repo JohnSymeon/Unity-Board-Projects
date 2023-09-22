@@ -1,3 +1,5 @@
 new project 
 19/09/23 hex created
 20/09/23 board done /geojo
+21/09/23 start of mapping and routing
+22/19/23 continue mapping /geojo
