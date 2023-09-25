@@ -2,4 +2,5 @@ new project
 19/09/23 hex created
 20/09/23 board done /geojo
 21/09/23 start of mapping and routing
-22/19/23 continue mapping /geojo
+22/9/23 continue mapping /geojo
+25/9/23 state machine and buttons , mapping complete
