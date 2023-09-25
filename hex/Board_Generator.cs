@@ -13,6 +13,8 @@ public class Board_Generator : MonoBehaviour
 
     public bool[,] connections_matrix;
 
+    public GameObject test_ids;
+
     // Start is called before the first frame update
     void Start()
     {
@@ -23,9 +25,9 @@ public class Board_Generator : MonoBehaviour
         {
             for(int j=0;j<size;j++)
             {
-                GameObject o = Instantiate(hex_tile_prefab,new Vector3(j-j_offset,i - i_offset,0),transform.rotation, gameObject.transform);
+                GameObject o = Instantiate(hex_tile_prefab,new Vector3(j+j_offset,-i + i_offset,0),transform.rotation, gameObject.transform);
                 o.transform.parent = gameObject.transform;
-                board[i,j] = new Tile(i*size+j,o);
+                board[i,j] = new Tile(i*size+j,o);      
             }
             j_offset += 0.5f;
             i_offset += 0.11f;
@@ -34,14 +36,6 @@ public class Board_Generator : MonoBehaviour
         connections_matrix = new bool[size*size, size*size];
         Initialise_CM();
 
-        for(int j=0;j<size*size;j++)
-        {
-            if(connections_matrix[16,j])
-                Debug.Log(j);
-        }
-
-        test_BoardtoWorld();
-        Debug.Log(connections_matrix);
         transform.position = new Vector3(3.86f,1.77f,0f);
         transform.localScale = new Vector3(0.7f,0.7f,0.7f);
         
@@ -64,7 +58,7 @@ public class Board_Generator : MonoBehaviour
                 string text;
 
                 text = board[i,j].id.ToString();
-                color =Color.white;
+                color =Color.yellow;
                 /*if(board[i,j].ID== Cell_status.Neutral)
                 {
                     text = "N";
@@ -83,7 +77,7 @@ public class Board_Generator : MonoBehaviour
                 }*/
                     
                 if(arr[i,j]==null)
-                    arr[i,j] = CreateWorldText(text,color, TextAnchor.MiddleCenter, TextAlignment.Center,board[i,j].go.transform.position,100,gameObject.transform);
+                    arr[i,j] = CreateWorldText(text,color, TextAnchor.MiddleCenter, TextAlignment.Center,board[i,j].go.transform.position,100,test_ids.transform);
                 else
                 {
                     arr[i,j].text = text;
@@ -95,19 +89,20 @@ public class Board_Generator : MonoBehaviour
        
     }
 
-    public TextMesh CreateWorldText( string text, Color color, TextAnchor textAnchor, TextAlignment textAlignment,Vector3  localPosition , int sortingOrder,Transform parent = null, int fontSize = 10)
+    public TextMesh CreateWorldText( string text, Color color, TextAnchor textAnchor, TextAlignment textAlignment,Vector3  localPosition , int sortingOrder,Transform parent = null, int fontSize = 50)
     {
         GameObject gameObject = new GameObject("world_text",typeof(TextMesh));
         Transform transform = gameObject.transform;
         transform.SetParent(parent,true);
         transform.localPosition = localPosition;
-        transform.eulerAngles = new Vector3(-90,180,90);
+        transform.eulerAngles = new Vector3(0,0,0);
         TextMesh textMesh = gameObject.GetComponent<TextMesh>();
         textMesh.anchor = textAnchor;
         textMesh.alignment = textAlignment;
         textMesh.text= text;
         textMesh.fontSize = fontSize;
         textMesh.color = color;
+        gameObject.transform.localScale = new Vector3(0.1f,0.1f,0.1f);
         textMesh.GetComponent<MeshRenderer>().sortingOrder = sortingOrder;
         return textMesh;
 

@@ -5,8 +5,9 @@ using UnityEngine;
 public enum Status
 {
     Neutral = 0,
-    Red,
-    Blue
+    Blue,
+    Red
+    
 }
 
 public class Tile
@@ -20,5 +21,6 @@ public class Tile
         id = Id;
         go =Go;
         status = Status.Neutral;
+        go.GetComponent<Hex_Generator>().id = id;
     }
 }

@@ -23,6 +23,8 @@ public struct Face
 [RequireComponent(typeof(MeshRenderer))]
 public class Hex_Generator : MonoBehaviour
 {
+    public int id;
+
     public float innerSize = 0.45f;
     public float outerSize = 0.5f;
     public float height = 0f;
