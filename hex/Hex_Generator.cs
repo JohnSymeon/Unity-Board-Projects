@@ -23,7 +23,7 @@ public struct Face
 [RequireComponent(typeof(MeshRenderer))]
 public class Hex_Generator : MonoBehaviour
 {
-    public int id;
+
 
     public float innerSize = 0.45f;
     public float outerSize = 0.5f;
@@ -115,11 +115,27 @@ public class Hex_Generator : MonoBehaviour
         DrawFaces();
         CombineFaces();
     }
-
-
     // Update is called once per frame
     void Update()
     {
         DrawMesh();
     }
+
+///////////////////////////////////////////////////////////////////
+
+    public int id;
+    Game_Controller GC;
+    public GameObject button;
+
+    void Start()
+    {
+        GC = FindObjectOfType<Game_Controller>();
+    }
+
+    public void OnButtonClick()
+    {
+        GC.PlacedTile(id);
+        button.SetActive(false);
+    }
+
 }

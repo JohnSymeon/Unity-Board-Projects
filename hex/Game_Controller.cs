@@ -4,6 +4,7 @@ using UnityEngine;
 
 public class Game_Controller : MonoBehaviour
 {
+    Board_Generator BG;
 
     Status whos_turn;
     bool intermediate_state;
@@ -11,6 +12,7 @@ public class Game_Controller : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
+        BG = GetComponent<Board_Generator>();
         whos_turn = Status.Blue;
     }
 
@@ -51,9 +53,10 @@ public class Game_Controller : MonoBehaviour
         //activate computer buttons
     }
 
-    public void OnButtonClick()
+    public void PlacedTile(int id)
     {
-        //button logic
+        BG.Place_tile(id, whos_turn);
+        intermediate_state = true;
     }
 
 }

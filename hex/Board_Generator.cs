@@ -41,6 +41,11 @@ public class Board_Generator : MonoBehaviour
         
     }
 
+    public void Place_tile(int id_played, Status who_played)
+    {
+        board[id_played/size, id_played%size].Change_Status(who_played);
+    }
+
     TextMesh[,] arr;
     public void test_BoardtoWorld()
     {
@@ -59,23 +64,15 @@ public class Board_Generator : MonoBehaviour
 
                 text = board[i,j].id.ToString();
                 color =Color.yellow;
-                /*if(board[i,j].ID== Cell_status.Neutral)
+                if(board[i,j].status== Status.Blue)
                 {
-                    text = "N";
-                    color =Color.white;
+                    color =Color.blue;
                 }
-                    
-                else if(board[i,j].status== Cell_status.Player)
+                else if(board[i,j].status== Status.Red)
                 {
                     color = Color.red;
-                    text = "R";
                 }
-                else
-                {
-                    color = Color.yellow;
-                    text = "Y";
-                }*/
-                    
+
                 if(arr[i,j]==null)
                     arr[i,j] = CreateWorldText(text,color, TextAnchor.MiddleCenter, TextAlignment.Center,board[i,j].go.transform.position,100,test_ids.transform);
                 else
