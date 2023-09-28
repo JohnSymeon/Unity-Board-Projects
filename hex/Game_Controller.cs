@@ -35,7 +35,14 @@ public class Game_Controller : MonoBehaviour
 
     void Intermediate_State()
     {
-        Debug.Log(whos_turn);
+        if(BG.Check_for_Victory(BG.board, whos_turn))
+        {
+            Debug.Log(whos_turn);
+            Debug.Log("has won");
+        }
+        else
+            Debug.Log("no victor, game continues..");
+        
         if(whos_turn==Status.Blue)
             whos_turn = Status.Red;
         else

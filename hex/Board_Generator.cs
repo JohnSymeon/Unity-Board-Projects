@@ -46,6 +46,8 @@ public class Board_Generator : MonoBehaviour
         board[id_played/size, id_played%size].Change_Status(who_played);
     }
 
+
+
     TextMesh[,] arr;
     public void test_BoardtoWorld()
     {
@@ -174,6 +176,65 @@ public class Board_Generator : MonoBehaviour
                 }
             }
         }
+    }
+
+
+    public bool Check_for_Victory( Tile[,] test_board , Status who_played )
+    {
+        bool[] reached_nodes = new bool[size*size];
+
+        for(int j=0;j<size;j++)
+        {
+            if((test_board[0,j].status== Status.Red && who_played==Status.Red )
+            || (test_board[j,0].status== Status.Blue && who_played==Status.Blue ) )
+            {
+                
+                bool found_reached=true;
+
+                while(found_reached)
+                {               
+                    found_reached=false;                 
+                    if(who_played==Status.Red)
+                        reached_nodes[j] = true;
+                    else
+                        reached_nodes[j*size] = true;
+                    
+                    for(int k=0;k<size*size;k++)
+                    {
+                        for(int w=0; w<size*size;w++)
+                        {
+                            if(test_board[k/size,k%size].status == who_played 
+                            && connections_matrix[k,w] 
+                            && test_board[w/size, w%size].status == who_played
+                            && reached_nodes[w] && !reached_nodes[k])
+                            {
+                                reached_nodes[k] = true;
+                                found_reached = true; 
+                            }
+                        }
+                    }
+                }
+            }
+        }
+
+        if(who_played == Status.Red)
+        {
+            for(int k=size*size-size;k<size*size;k++)
+            {
+                if(reached_nodes[k])
+                    return true;
+            }
+        }
+        else if(who_played == Status.Blue)
+        {
+            for(int k= size-1; k<size*size; k=k+size)
+            {
+                if(reached_nodes[k])
+                    return true;
+            }
+        }
+
+        return false;
     }
 
     // Update is called once per frame
