@@ -14,6 +14,7 @@ public class Board_Generator : MonoBehaviour
     public bool[,] connections_matrix;
 
     public GameObject test_ids;
+    
 
     // Start is called before the first frame update
     void Start()

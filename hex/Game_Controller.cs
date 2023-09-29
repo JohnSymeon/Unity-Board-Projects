@@ -9,11 +9,16 @@ public class Game_Controller : MonoBehaviour
     Status whos_turn;
     bool intermediate_state;
 
+    AI ai;
+
+    public GameObject canvas;
+
     // Start is called before the first frame update
     void Start()
     {
         BG = GetComponent<Board_Generator>();
         whos_turn = Status.Blue;
+        ai = GetComponent<AI>();
     }
 
     // Update is called once per frame
@@ -52,11 +57,16 @@ public class Game_Controller : MonoBehaviour
 
     void Player_Turn()
     {
+        canvas.SetActive(true);
         //activate player buttons
     }
 
     void Computer_Turn()
     {
+        canvas.SetActive(false);
+        int ai_play = ai.AI_Chooses(whos_turn);
+        PlacedTile(ai_play);
+        BG.board[ai_play/BG.size,ai_play%BG.size].go.GetComponent<Hex_Generator>().CloseButton();
         //activate computer buttons
     }
 

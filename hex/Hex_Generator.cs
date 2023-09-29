@@ -138,4 +138,9 @@ public class Hex_Generator : MonoBehaviour
         button.SetActive(false);
     }
 
+    public void CloseButton()
+    {
+        button.SetActive(false);
+    }
+
 }

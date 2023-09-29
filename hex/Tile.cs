@@ -20,6 +20,10 @@ public class Tile
     {
         status = who_played;
     }
+    public Tile()
+    {
+        status = Status.Neutral;
+    }
 
     public Tile(int Id, GameObject Go)
     {
