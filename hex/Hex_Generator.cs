@@ -126,6 +126,13 @@ public class Hex_Generator : MonoBehaviour
     public int id;
     Game_Controller GC;
     public GameObject button;
+    public Material blue;
+    public Material red;
+
+    void SetColour(Material colour)
+    {
+        GetComponent<MeshRenderer>().material = colour;
+    }
 
     void Start()
     {
@@ -136,11 +143,18 @@ public class Hex_Generator : MonoBehaviour
     {
         GC.PlacedTile(id);
         button.SetActive(false);
+        SetColour(blue);
     }
 
     public void CloseButton()
     {
+        SetColour(red);
         button.SetActive(false);
+    }
+
+    public void DeActivate_Button_While_Thinking(bool set)
+    {
+        button.SetActive(!set);
     }
 
 }

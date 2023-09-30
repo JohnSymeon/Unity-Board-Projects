@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using System.Threading.Tasks;
 
 public class Game_Controller : MonoBehaviour
 {
@@ -40,6 +41,8 @@ public class Game_Controller : MonoBehaviour
 
     void Intermediate_State()
     {
+        Deactivate_All_Buttons(true);
+        canvas.SetActive(false);
         if(BG.Check_for_Victory(BG.board, whos_turn))
         {
             Debug.Log(whos_turn);
@@ -57,23 +60,49 @@ public class Game_Controller : MonoBehaviour
 
     void Player_Turn()
     {
+        Deactivate_All_Buttons(false);
         canvas.SetActive(true);
         //activate player buttons
     }
 
+    bool thinking = false;
+    int ai_play = -1;
     void Computer_Turn()
-    {
-        canvas.SetActive(false);
-        int ai_play = ai.AI_Chooses(whos_turn);
-        PlacedTile(ai_play);
-        BG.board[ai_play/BG.size,ai_play%BG.size].go.GetComponent<Hex_Generator>().CloseButton();
+    {   
+
+        if(!thinking)
+            Cpu_plays();
+        if(ai_play!=-1)
+        {
+            PlacedTile(ai_play);
+            BG.board[ai_play/BG.size,ai_play%BG.size].go.GetComponent<Hex_Generator>().CloseButton();
+            thinking = false;
+            ai_play = -1;
+        }
         //activate computer buttons
+    }
+    async void Cpu_plays()
+    {
+        thinking = true;
+        await Task.Run(()=>{
+            ai_play = ai.AI_Chooses(whos_turn);
+        });
+
     }
 
     public void PlacedTile(int id)
     {
         BG.Place_tile(id, whos_turn);
         intermediate_state = true;
+    }
+
+    public void Deactivate_All_Buttons(bool set)
+    {
+        for(int i=0;i<BG.size*BG.size;i++)
+        {
+            if(BG.board[i/BG.size,i%BG.size].status==Status.Neutral)
+                BG.board[i/BG.size,i%BG.size].go.GetComponent<Hex_Generator>().DeActivate_Button_While_Thinking(set);
+        }
     }
 
 }

@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using System;
 
 public class AI : MonoBehaviour
 {
@@ -46,6 +47,7 @@ public class AI : MonoBehaviour
 
         int[] Victories = new int[size*size];
         int[] Losses = new int[size*size];
+        System.Random rnd = new System.Random();
 
         for(int count=0;count<MONTE_NUMBER;count++)
         {
@@ -57,7 +59,6 @@ public class AI : MonoBehaviour
                     board_copy[i,j] = new Tile();
                 }
             }
-
             for(int i=0;i<size;i++)
             {
                 for(int j=0;j<size;j++)
@@ -66,8 +67,10 @@ public class AI : MonoBehaviour
                         board_copy[i,j].status = BG.board[i,j].status;
                     else
                     {
-                        float temp =  Random.Range(0f,1f);
-                        if(temp>0.5f)
+                        //float temp =  Random.Range(0f,1f);
+                        
+                        //float temp = (float)rnd.NextDouble();
+                        if((float)rnd.NextDouble()>0.5f)
                             board_copy[i,j].status = who;
                         else
                             board_copy[i,j].status = who_player;
