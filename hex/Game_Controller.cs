@@ -14,12 +14,17 @@ public class Game_Controller : MonoBehaviour
 
     public GameObject canvas;
 
+    public bool allow_check_in_intermidiate;
+
+    Objects_Handler OH;
+
     // Start is called before the first frame update
     void Start()
     {
         BG = GetComponent<Board_Generator>();
         whos_turn = Status.Blue;
         ai = GetComponent<AI>();
+        OH = GetComponent<Objects_Handler>();
     }
 
     // Update is called once per frame
@@ -43,19 +48,24 @@ public class Game_Controller : MonoBehaviour
     {
         Deactivate_All_Buttons(true);
         canvas.SetActive(false);
-        if(BG.Check_for_Victory(BG.board, whos_turn))
+        if(allow_check_in_intermidiate)
         {
-            Debug.Log(whos_turn);
-            Debug.Log("has won");
+            if(BG.Check_for_Victory(BG.board, whos_turn))
+            {
+                Debug.Log(whos_turn);
+                Debug.Log("has won");
+            }
+            else
+                Debug.Log("no victor, game continues..");
+            
+            if(whos_turn==Status.Blue)
+                whos_turn = Status.Red;
+            else
+                whos_turn = Status.Blue;
+            intermediate_state = false;
+            allow_check_in_intermidiate = false;
         }
-        else
-            Debug.Log("no victor, game continues..");
         
-        if(whos_turn==Status.Blue)
-            whos_turn = Status.Red;
-        else
-            whos_turn = Status.Blue;
-        intermediate_state = false;
     }
 
     void Player_Turn()
@@ -92,6 +102,8 @@ public class Game_Controller : MonoBehaviour
 
     public void PlacedTile(int id)
     {
+        Debug.Log("placetile");
+        StartCoroutine(OH.Lock_Shoot(OH.player_station_1.transform.GetChild(0).gameObject, BG.board[id/BG.size, id%BG.size].go.transform.position,whos_turn )) ;
         BG.Place_tile(id, whos_turn);
         intermediate_state = true;
     }
