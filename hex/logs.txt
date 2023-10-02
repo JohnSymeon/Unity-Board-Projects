@@ -9,3 +9,5 @@ new project
 28/9/23 check for victory code , works
 29/9/23 ai plays , first match we lost , polishing next , ui , and make up /geojo
 30/9/23 treading , ai got stupid , button active deactive bug fix with THMTY's programing
+1/10/23 objects reaction to make game more interesting
+2/10/23 pew pew pew
