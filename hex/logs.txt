@@ -11,3 +11,4 @@ new project
 30/9/23 treading , ai got stupid , button active deactive bug fix with THMTY's programing
 1/10/23 objects reaction to make game more interesting
 2/10/23 pew pew pew
+3/10/23 pew pew pew shoot to idle rotation problem
