@@ -22,6 +22,9 @@ public class Objects_Handler : MonoBehaviour
 
     public bool idle;
 
+    public Vector3 turret_rotation;
+    public Vector3 Target;
+
     public void Idle_Turret(GameObject turret)
     {
         turret.transform.rotation = Quaternion.LookRotation(Vector3.forward, new Vector3(Mathf.Cos(w*t),Mathf.Sin(w*t),0f ) );
@@ -29,13 +32,25 @@ public class Objects_Handler : MonoBehaviour
 
     public IEnumerator Lock_Shoot(GameObject turret, Vector3 target, Status who)
     {
+        Target = target;
         idle = false;
-        turret.transform.rotation = Quaternion.LookRotation(Vector3.forward, target);
+        //turret.transform.rotation = Quaternion.LookRotation(Vector3.forward, target);
+        yield return new WaitForSeconds(1f);
         var b = Instantiate(bullet, turret.transform.position, turret.transform.rotation);
 
         b.GetComponent<Bullet>().target= target;
         yield return new WaitForSeconds(0.5f);
         idle = true;
+
+        //turret_rotation = target - transform.position;
+
+        Vector3 vector = (target-turret.transform.position).normalized;
+        Debug.Log(vector);
+        float x_variable = Mathf.Acos(vector.x)/w;
+        Debug.Log(x_variable);
+        var y_variable = Mathf.Asin(vector.y)/w;
+        t = x_variable;
+
     }
 
     public void Idle_Station(GameObject station)
@@ -72,14 +87,26 @@ public class Objects_Handler : MonoBehaviour
         t=0f;
         BG = GetComponent<Board_Generator>();
         idle = true;
+
+        turret_rotation = Vector3.forward;
         
     }
 
     void FixedUpdate()
     {
         t+=Time.fixedDeltaTime;
+        //Debug.Log(t);
         if(idle)
+        {
             Idle_Turret(player_station_1.transform.GetChild(0).gameObject);
+        }   
+        else if(!idle)
+        {
+            player_station_1.transform.GetChild(0).gameObject.transform.rotation = Quaternion.RotateTowards(
+                player_station_1.transform.GetChild(0).gameObject.transform.rotation, Quaternion.Euler( 0,0,
+                 Mathf.Rad2Deg * Mathf.Atan2((Target-player_station_1.transform.GetChild(0).gameObject.transform.position).normalized.y,(Target-player_station_1.transform.GetChild(0).gameObject.transform.position).normalized.x)-90f), 
+                 250* Time.fixedDeltaTime);
+        }
         Idle_Station(player_station_1);
         
     }
