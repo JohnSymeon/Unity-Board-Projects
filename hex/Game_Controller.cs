@@ -103,7 +103,8 @@ public class Game_Controller : MonoBehaviour
     public void PlacedTile(int id)
     {
         Debug.Log("placetile");
-        StartCoroutine(OH.Lock_Shoot(OH.player_station_1.transform.GetChild(0).gameObject, BG.board[id/BG.size, id%BG.size].go.transform.position,whos_turn )) ;
+        OH.Order_turret_to_shoot(whos_turn, BG.board[id/BG.size, id%BG.size].go.transform.position);
+        //StartCoroutine(OH.turret_1.GetComponent<Turret_Script>().Lock_Shoot(BG.board[id/BG.size, id%BG.size].go.transform.position)) ;
         BG.Place_tile(id, whos_turn);
         intermediate_state = true;
     }
