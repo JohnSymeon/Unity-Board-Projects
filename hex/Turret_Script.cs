@@ -32,12 +32,7 @@ public class Turret_Script : MonoBehaviour
         yield return new WaitForSeconds(0.5f);
         idle = true;
 
-        //turret_rotation = target - transform.position;
-
-        Vector3 vector = (target-transform.position).normalized;
-        float x_variable = Mathf.Acos(vector.x)/w;
-        Debug.Log(x_variable);
-        t = x_variable;
+        t = (Mathf.Atan2((Target-transform.position).normalized.y,(Target-transform.position).normalized.x))/w;
 
     }
     // Start is called before the first frame update

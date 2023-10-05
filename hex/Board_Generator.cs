@@ -241,6 +241,6 @@ public class Board_Generator : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        test_BoardtoWorld();
+        //test_BoardtoWorld();
     }
 }

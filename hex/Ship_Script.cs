@@ -40,6 +40,12 @@ public class Ship_Script : MonoBehaviour
         
     }
 
+    public void Send_Ship(GameObject go, Vector3 Target)
+    {
+        GameObject g = Instantiate(go,transform.position,transform.rotation);
+        g.GetComponent<Fighter_Script>().target = Target;
+    }
+
 
     // Start is called before the first frame update
     void Start()

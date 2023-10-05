@@ -13,7 +13,25 @@ public class Objects_Handler : MonoBehaviour
     public GameObject turret_1;
     public GameObject turret_2;
 
+    public GameObject fighter_1;
+    public GameObject fighter_2;
+
     public bool idle_turret_1;
+
+    Status who_last_shot;
+    Vector3 last_target;
+
+    public void Order_Fighter()
+    {
+        if(who_last_shot==Status.Blue)
+        {
+            player_station_2.GetComponent<Ship_Script>().Send_Ship(fighter_1, last_target);
+        }
+        else
+        {
+            alien_station_2.GetComponent<Ship_Script>().Send_Ship(fighter_2, last_target);
+        }
+    }
 
     public void Order_turret_to_shoot(Status who, Vector3 target )
     {
@@ -25,6 +43,8 @@ public class Objects_Handler : MonoBehaviour
         {
             StartCoroutine(turret_2.GetComponent<Turret_Script>().Lock_Shoot(target));
         }
+        who_last_shot = who;
+        last_target = target;
     }
 
     void Start()
@@ -37,12 +57,6 @@ public class Objects_Handler : MonoBehaviour
     {
        player_station_1.GetComponent<Ship_Script>().Idle_Station();
        alien_station_1.GetComponent<Ship_Script>().Idle_Station();
-       /*if(idle_turret_1)
-       {
-            turret_1.GetComponent<Turret_Script>().idle = true;
-       }*/
-       
-       
         
     }
 }
