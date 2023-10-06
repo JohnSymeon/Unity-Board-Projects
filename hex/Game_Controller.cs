@@ -50,6 +50,7 @@ public class Game_Controller : MonoBehaviour
         canvas.SetActive(false);
         if(allow_check_in_intermidiate)
         {
+            Destroy_Asteroid(OH.last_target);
             if(BG.Check_for_Victory(BG.board, whos_turn))
             {
                 Debug.Log(whos_turn);
@@ -66,6 +67,16 @@ public class Game_Controller : MonoBehaviour
             allow_check_in_intermidiate = false;
         }
         
+    }
+
+    void Destroy_Asteroid(Vector3 last_target)
+    {
+        for(int i=0;i<BG.size*BG.size;i++)
+        {
+            if(BG.board[i/BG.size,i%BG.size].go.transform.position==last_target)
+                Destroy(BG.board[i/BG.size,i%BG.size].go.transform.GetChild(0).gameObject);
+        }
+        //Destroy(BG.board[(int)last_target.x, -(int)last_target.y ].go);
     }
 
     void Player_Turn()

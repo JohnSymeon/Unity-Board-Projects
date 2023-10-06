@@ -16,8 +16,11 @@ public class Fighter_Script : MonoBehaviour
     // Update is called once per frame
     void FixedUpdate()
     {
-        transform.rotation = Quaternion.LookRotation(Vector3.forward, target);
-        transform.position = Vector3.MoveTowards(transform.position, target , 15f*Time.fixedDeltaTime );
+        if((target-transform.position).magnitude>0.01f)
+        {
+            transform.rotation = Quaternion.LookRotation(Vector3.forward, target-transform.position );
+            transform.position = Vector3.MoveTowards(transform.position, target , 100f*Time.fixedDeltaTime );
+        }
 
     }
 }

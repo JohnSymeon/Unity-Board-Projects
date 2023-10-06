@@ -15,6 +15,10 @@ public class Turret_Script : MonoBehaviour
     public Vector3 turret_rotation;
     public Vector3 Target;
 
+    public GameObject muzzle;
+
+    public GameObject muzzle_point;
+
     public void Idle_Turret()
     {
         transform.rotation = Quaternion.LookRotation(Vector3.forward, new Vector3(Mathf.Cos(w*t),Mathf.Sin(w*t),0f ) );
@@ -29,6 +33,8 @@ public class Turret_Script : MonoBehaviour
         var b = Instantiate(bullet, transform.position, transform.rotation);
 
         b.GetComponent<Bullet>().target= target;
+
+        Instantiate(muzzle,muzzle_point.transform.position,transform.rotation);
         yield return new WaitForSeconds(0.5f);
         idle = true;
 

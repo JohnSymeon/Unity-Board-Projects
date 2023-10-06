@@ -19,7 +19,7 @@ public class Objects_Handler : MonoBehaviour
     public bool idle_turret_1;
 
     Status who_last_shot;
-    Vector3 last_target;
+    public Vector3 last_target;
 
     public void Order_Fighter()
     {
