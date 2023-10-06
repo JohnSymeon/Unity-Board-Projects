@@ -13,3 +13,5 @@ new project
 2/10/23 pew pew pew
 3/10/23 pew pew pew shoot to idle rotation problem
 4/10/23 vassals of OH created , 2 out of 4 do something /geojo
+5/10/23 rot problem fixed , 4/4 ships do sthg
+6/10/23  ship fix . roids explode
