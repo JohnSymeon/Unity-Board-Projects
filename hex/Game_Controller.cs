@@ -50,6 +50,7 @@ public class Game_Controller : MonoBehaviour
         canvas.SetActive(false);
         if(allow_check_in_intermidiate)
         {
+            BG.Check_Connect_Lines();
             Destroy_Asteroid(OH.last_target);
             if(BG.Check_for_Victory(BG.board, whos_turn))
             {

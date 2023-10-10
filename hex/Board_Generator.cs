@@ -14,6 +14,12 @@ public class Board_Generator : MonoBehaviour
     public bool[,] connections_matrix;
 
     public GameObject test_ids;
+
+    public GameObject Red_Line;
+    public GameObject Blue_Line;
+    public GameObject Conflict_Line;
+
+    public bool[,] line_matrix;
     
 
     // Start is called before the first frame update
@@ -36,6 +42,7 @@ public class Board_Generator : MonoBehaviour
 
         connections_matrix = new bool[size*size, size*size];
         Initialise_CM();
+        line_matrix = new bool[size*size, size*size];
 
         transform.position = new Vector3(3.86f,1.77f,0f);
         transform.localScale = new Vector3(0.7f,0.7f,0.7f);
@@ -47,6 +54,39 @@ public class Board_Generator : MonoBehaviour
         board[id_played/size, id_played%size].Change_Status(who_played);
     }
 
+    public void Check_Connect_Lines()
+    {
+        
+        for(int i=0;i<size*size;i++)
+        {
+            for(int j=0;j<size*size;j++)
+            {
+                if(connections_matrix[i,j] && !line_matrix[i,j] && board[i/size,i%size].status!=Status.Neutral && board[j/size,j%size].status!=Status.Neutral )
+                {
+                    line_matrix[i,j] = true;
+                    Vector3 vec = board[i/size,i%size].go.transform.position -  board[j/size,j%size].go.transform.position;
+                    Vector3 offset = board[i/size,i%size].go.transform.position;
+                    Create_Line(i,j,vec,offset);
+                }
+            }
+        }
+    }
+
+    void Create_Line(int i, int j, Vector3 vec, Vector3 offset)
+    {
+        if( board[i/size,i%size].status==Status.Red && board[j/size,j%size].status==Status.Red )
+        {
+            Instantiate(Red_Line,offset- vec, Quaternion.Euler( 0,0,Mathf.Rad2Deg * Mathf.Atan2(vec.normalized.y,vec.normalized.x)));
+        }
+        else if(board[i/size,i%size].status==Status.Blue && board[j/size,j%size].status==Status.Blue)
+        {
+            Instantiate(Blue_Line,offset- vec, Quaternion.Euler( 0,0,Mathf.Rad2Deg * Mathf.Atan2(vec.normalized.y,vec.normalized.x)));
+        }
+        else
+        {
+            Instantiate(Conflict_Line,offset- vec, Quaternion.Euler( 0,0,Mathf.Rad2Deg * Mathf.Atan2(vec.normalized.y,vec.normalized.x)));
+        }
+    }
 
 
     TextMesh[,] arr;

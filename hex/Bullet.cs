@@ -9,6 +9,7 @@ public class Bullet : MonoBehaviour
     Game_Controller GC;
     public GameObject explosion;
 
+
     // Start is called before the first frame update
     void Start()
     {
@@ -27,6 +28,7 @@ public class Bullet : MonoBehaviour
             GC.allow_check_in_intermidiate = true;
             Instantiate(explosion,transform.position,transform.rotation);
             Destroy(gameObject);
+            
         }
     }
 
