@@ -16,3 +16,4 @@ new project
 5/10/23 rot problem fixed , 4/4 ships do sthg
 6/10/23  ship fix . roids explode
 9/10/23 cern would be proud , particle experements
+10/10/23 make lines and vector math
