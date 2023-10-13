@@ -44,8 +44,8 @@ public class Board_Generator : MonoBehaviour
         Initialise_CM();
         line_matrix = new bool[size*size, size*size];
 
-        transform.position = new Vector3(3.86f,1.77f,0f);
-        transform.localScale = new Vector3(0.7f,0.7f,0.7f);
+        transform.position = new Vector3(1.5f,3.38f,0f);
+        transform.localScale = new Vector3(0.9423107f,0.9423107f,0.9423107f);
         
     }
 
