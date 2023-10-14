@@ -5,11 +5,15 @@ using UnityEngine;
 public class Fighter_Script : MonoBehaviour
 {
     public Vector3 target;
-
+    public Vector3 minScale;
+    public Vector3 maxScale;
+    bool maximize;
 
     // Start is called before the first frame update
     void Start()
     {
+        minScale = transform.localScale;
+        maxScale = minScale + new Vector3(0.2f,0.2f,0.2f);
 
     }
 
@@ -20,6 +24,29 @@ public class Fighter_Script : MonoBehaviour
         {
             transform.rotation = Quaternion.LookRotation(Vector3.forward, target-transform.position );
             transform.position = Vector3.MoveTowards(transform.position, target , 100f*Time.fixedDeltaTime );
+        }
+        else
+        {
+            if(transform.localScale== minScale)
+            {
+                maximize = true;
+            }
+            if(transform.localScale==maxScale)
+            {
+                maximize = false;
+            }
+            if(maximize)
+            {
+                float nig = Mathf.Lerp(transform.localScale.x, maxScale.x, Time.fixedDeltaTime *10f);
+                transform.localScale = new Vector3(nig,nig,nig);
+            }
+            else
+            {
+                float nig = Mathf.Lerp(transform.localScale.x, minScale.x, Time.fixedDeltaTime *10f);
+                transform.localScale = new Vector3(nig,nig,nig);
+            }
+            
+
         }
 
     }
