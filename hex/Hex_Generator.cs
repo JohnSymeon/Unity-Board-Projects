@@ -128,6 +128,7 @@ public class Hex_Generator : MonoBehaviour
     public GameObject button;
     public Material blue;
     public Material red;
+    public Material grey;
 
     void SetColour(Material colour)
     {
@@ -137,6 +138,7 @@ public class Hex_Generator : MonoBehaviour
     void Start()
     {
         GC = FindObjectOfType<Game_Controller>();
+        SetColour(grey);
     }
 
     public void OnButtonClick()
