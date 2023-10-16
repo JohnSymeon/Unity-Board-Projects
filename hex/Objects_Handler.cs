@@ -21,6 +21,18 @@ public class Objects_Handler : MonoBehaviour
     Status who_last_shot;
     public Vector3 last_target;
 
+    public Material Red;
+    public Material Blue;
+
+    
+
+    void Shift_material_transparency(Material material)
+    {
+        var temp = material.color;
+        temp.a = 0.8f + 0.2f*Mathf.Sin(Time.time*2.5f);
+        material.color = temp;
+    }
+
     public void Order_Fighter()
     {
         if(who_last_shot==Status.Blue)
@@ -57,6 +69,9 @@ public class Objects_Handler : MonoBehaviour
     {
        player_station_1.GetComponent<Ship_Script>().Idle_Station();
        alien_station_1.GetComponent<Ship_Script>().Idle_Station();
+
+       Shift_material_transparency(Red);
+       Shift_material_transparency(Blue);
         
     }
 }
