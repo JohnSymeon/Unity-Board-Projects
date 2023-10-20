@@ -129,6 +129,7 @@ public class Hex_Generator : MonoBehaviour
     public Material blue;
     public Material red;
     public Material grey;
+    bool allow_coroutine;
 
     void SetColour(Material colour)
     {
@@ -137,8 +138,84 @@ public class Hex_Generator : MonoBehaviour
 
     void Start()
     {
+        allow_coroutine = true;
+
+        int num = Random.Range(0,5);
+
+        gameObject.transform.GetChild(num).SetSiblingIndex(0);
+
+        for(int i=1;i<6;i++)
+        {
+            Destroy(gameObject.transform.GetChild(i).gameObject);
+        }
+
+        float angle = Random.Range(-180f,0f);
+
+        gameObject.transform.GetChild(0).gameObject.transform.rotation =  Quaternion.Euler(0f,0f, angle );
+
         GC = FindObjectOfType<Game_Controller>();
         SetColour(grey);
+    }
+
+    void FixedUpdate()
+    {
+        if(allow_coroutine && GC.BG.board[id/GC.BG.size,id%GC.BG.size].status== Status.Neutral )
+        {
+            
+            if( (id>0 && id<10) || ( id>110 && id<120) )
+            {
+                StartCoroutine(Border_Color_Shift(red,grey,red,grey));
+            }
+            else if((id%11==0 || id%11==10) && (id!=0 && id!=10 && id!=110 && id!=120 ) )
+            {
+                StartCoroutine(Border_Color_Shift(blue,grey,blue,grey));
+            }
+            else if( id== 0 || id==10 || id==110|| id==120)
+            {
+                StartCoroutine(Border_Color_Shift(blue,grey,red,grey));
+            }
+        }
+/*
+        if( GC.BG.board[id/GC.BG.size,id%GC.BG.size].status== Status.Red)
+        {
+            SetColour(red);
+        }
+        else if(GC.BG.board[id/GC.BG.size,id%GC.BG.size].status== Status.Blue)
+        {
+            SetColour(blue);
+        }*/
+    }
+
+    IEnumerator Border_Color_Shift(Material a, Material b, Material c, Material d )
+    {
+        Debug.Log("entered coroutine");
+        allow_coroutine = false;
+        GetComponent<MeshRenderer>().material = a;
+        yield return new WaitForSeconds(1f);
+        if(GC.BG.board[id/GC.BG.size,id%GC.BG.size].status!=Status.Neutral)
+        {
+            yield break;
+        }
+        GetComponent<MeshRenderer>().material = b;
+        yield return new WaitForSeconds(1f);
+        if(GC.BG.board[id/GC.BG.size,id%GC.BG.size].status!=Status.Neutral)
+        {
+            yield break;
+        }
+        GetComponent<MeshRenderer>().material = c;
+        yield return new WaitForSeconds(1f);
+        if(GC.BG.board[id/GC.BG.size,id%GC.BG.size].status!=Status.Neutral)
+        {
+            yield break;
+        }
+        GetComponent<MeshRenderer>().material = d;
+        yield return new WaitForSeconds(1f);
+        if(GC.BG.board[id/GC.BG.size,id%GC.BG.size].status!=Status.Neutral)
+        {
+            yield break;
+        }
+        allow_coroutine =true;
+
     }
 
     public void OnButtonClick()

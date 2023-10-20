@@ -34,7 +34,8 @@ public class Board_Generator : MonoBehaviour
             {
                 GameObject o = Instantiate(hex_tile_prefab,new Vector3(j+j_offset,-i + i_offset,0),transform.rotation, gameObject.transform);
                 o.transform.parent = gameObject.transform;
-                board[i,j] = new Tile(i*size+j,o);      
+                board[i,j] = new Tile(i*size+j,o);
+                o.GetComponent<Hex_Generator>().id = i*size+j;     
             }
             j_offset += 0.5f;
             i_offset += 0.11f;

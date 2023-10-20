@@ -5,7 +5,7 @@ using System.Threading.Tasks;
 
 public class Game_Controller : MonoBehaviour
 {
-    Board_Generator BG;
+    public Board_Generator BG;
 
     Status whos_turn;
     bool intermediate_state;

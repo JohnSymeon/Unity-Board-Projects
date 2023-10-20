@@ -31,7 +31,7 @@ public class Bullet : MonoBehaviour
             
         }
     }
-
+    
     //[SerializeField] public UnityEvent Send_Force;
 
     
