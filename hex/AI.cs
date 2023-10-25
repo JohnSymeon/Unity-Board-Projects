@@ -13,6 +13,7 @@ public class AI : MonoBehaviour
 
     void Start()
     {
+        this.MONTE_NUMBER = MenuScript.MONTE_NUMBER;
         BG = GetComponent<Board_Generator>();
         size = BG.size;
 
